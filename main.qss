@@ -1,0 +1,4 @@
+#MainWindow {
+    background: qlineargradient(x1:0, y1:0, x2:0, y1:1, 
+                                stop:0 #ff5e62, stop:1 #ff9966);
+}

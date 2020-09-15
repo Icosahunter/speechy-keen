@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="Images">
+    <file>VideoMockup.png</file>
+    <file>Speechy Keen Logo.png</file>
+  </qresource>
+</RCC>

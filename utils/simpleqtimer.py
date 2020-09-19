@@ -13,7 +13,7 @@ class SimpleTimer():
 
     def __init__(self, textWidget):
         self.textWidget = textWidget
-        self.thread = Thread(target=timer_thread_update)
+        self.thread = Thread(target=timer_thread_update, args=(self,))
         self.start_time = None
         self.thread.start()
         self.run_timer = False

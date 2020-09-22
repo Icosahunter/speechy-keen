@@ -1,0 +1,30 @@
+QMainWindow {
+    background: qlineargradient(x1:0, y1:0, x2:0, y1:1, 
+                                stop:0 #ff5e62, stop:1 #ff9966);
+    color: white;
+}
+
+QFrame[frameShape="4"],
+QFrame[frameShape="5"] {
+    border: none;
+    background: white;
+    min-height: 2;
+}
+
+QTabWidget {
+    background: transparent;
+}
+
+QTabWidget::pane {
+    border: none;
+}
+
+QLabel {
+    color: white;
+}
+
+QPushButton {
+    border-radius: 5px;
+    border-width: 5px;
+    border-color: white;
+}

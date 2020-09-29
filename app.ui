@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1018</width>
-    <height>639</height>
+    <width>940</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,14 +24,22 @@
    </size>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout"/>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1018</width>
+     <width>940</width>
      <height>31</height>
     </rect>
    </property>
@@ -100,7 +108,7 @@
  </widget>
  <resources>
   <include location="resources.qrc"/>
-  <include location="Documents/python programs/Speechy Keen/resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

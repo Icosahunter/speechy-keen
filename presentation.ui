@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>975</width>
+    <width>899</width>
     <height>516</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="sideBarContainer">
      <item>
       <widget class="QLabel" name="timeLabel">
        <property name="sizePolicy">
@@ -48,7 +48,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="StatsContainer">
+      <layout class="QHBoxLayout" name="statsContainer">
        <item>
         <widget class="QLabel" name="moodLabel">
          <property name="sizePolicy">
@@ -113,9 +113,9 @@ nisl sed </string>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="SpeechNotesButtonsContainer">
+      <layout class="QHBoxLayout" name="speechNotesButtonsContainer">
        <item>
-        <widget class="QPushButton" name="SpeechNotesBack">
+        <widget class="QPushButton" name="speechNotesBackButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -137,7 +137,7 @@ nisl sed </string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="SpeechNotesForward">
+        <widget class="QPushButton" name="speechNotesForwardButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -175,16 +175,16 @@ nisl sed </string>
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <layout class="QHBoxLayout" name="presentationSettingsContainter">
        <item>
-        <widget class="QRadioButton" name="radioButton_2">
+        <widget class="QRadioButton" name="saveRunRadioButton">
          <property name="text">
           <string>Save Run</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="radioButton">
+        <widget class="QRadioButton" name="practiceModeRadioButton">
          <property name="text">
           <string>Practice Mode</string>
          </property>
@@ -242,7 +242,6 @@ nisl sed </string>
  </widget>
  <resources>
   <include location="resources.qrc"/>
-  <include location="../../../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

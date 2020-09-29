@@ -1,6 +1,11 @@
+*{
+    color: white;
+    font-weight: 500;
+}
+
 QMainWindow {
     background: qlineargradient(x1:0, y1:0, x2:0, y1:1, 
-                                stop:0 #ff5e62, stop:1 #ff9966);
+                                stop:0 #FF5F6D, stop:1 #FFC371);
     color: white;
 }
 
@@ -8,7 +13,7 @@ QFrame[frameShape="4"],
 QFrame[frameShape="5"] {
     border: none;
     background: white;
-    min-height: 2;
+    min-height: 1;
 }
 
 QTabWidget {
@@ -19,8 +24,8 @@ QTabWidget::pane {
     border: none;
 }
 
-QLabel {
-    color: white;
+QTabBar::tab:selected {
+    color: #333333;
 }
 
 QPushButton {
@@ -28,3 +33,39 @@ QPushButton {
     border-width: 5px;
     border-color: white;
 }
+
+QGroupBox {
+    background: transparent;
+    border: none;
+    padding-top: 25px;
+}
+
+QAbstractScrollArea {
+    background: rgba(0, 0, 0, 10%);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    border-left: none;
+    border-right: none;
+}
+
+QComboBox {
+    background: rgba(0, 0, 0, 10%);
+}
+
+QComboBox QAbstractItemView{
+    background: white;
+    color: #333333;
+    selection-background-color: gray;
+    selection-color: white;
+}
+
+QMenuBar QMenu {
+    background: white;
+    color: #333333;
+}
+
+QMenuBar QMenu::item:selected {
+    background: gray;
+    color: white;
+}
+

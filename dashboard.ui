@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1063</width>
-    <height>564</height>
+    <width>866</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,22 +15,22 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QGroupBox" name="dashboard_StatsGroup">
+    <widget class="QGroupBox" name="statsGroupBox">
      <property name="title">
       <string>Stats</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <layout class="QFormLayout" name="formLayout_2">
+       <layout class="QFormLayout" name="statsForm">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_9">
+         <widget class="QLabel" name="totalScoreLabel">
           <property name="text">
            <string>Total Score</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QProgressBar" name="progressBar_4">
+         <widget class="QProgressBar" name="totalScoreProgressBar">
           <property name="value">
            <number>24</number>
           </property>
@@ -40,14 +40,14 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="speedLabel">
           <property name="text">
            <string>Speed (w/s)</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QProgressBar" name="progressBar">
+         <widget class="QProgressBar" name="speedProgressBar">
           <property name="value">
            <number>24</number>
           </property>
@@ -57,14 +57,14 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="fillerCountLabel">
           <property name="text">
            <string>Filler Count</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QProgressBar" name="progressBar_2">
+         <widget class="QProgressBar" name="fillerProgressBar">
           <property name="value">
            <number>24</number>
           </property>
@@ -74,14 +74,14 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="moodLabel">
           <property name="text">
            <string>Mood</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QProgressBar" name="progressBar_3">
+         <widget class="QProgressBar" name="moodProgressBar">
           <property name="value">
            <number>24</number>
           </property>
@@ -91,14 +91,14 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="label_10">
+         <widget class="QLabel" name="statsSourceLabel">
           <property name="text">
            <string>Stats Source</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="statsSourceComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -133,7 +133,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QGroupBox" name="dashboard_NotesGroup">
+    <widget class="QGroupBox" name="notesGroupBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -145,19 +145,19 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="0">
-       <widget class="QTextEdit" name="textEdit_2"/>
+       <widget class="QTextEdit" name="notesTextEdit"/>
       </item>
      </layout>
     </widget>
    </item>
    <item row="0" column="1" rowspan="2">
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="recentSpeechesGroupBox">
      <property name="title">
       <string>Recent Speeches</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QHBoxLayout" name="recentSpeechesOptionsContainer">
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
@@ -172,7 +172,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="allSpeechesButton">
           <property name="text">
            <string>All Speeches</string>
           </property>
@@ -181,7 +181,7 @@
        </layout>
       </item>
       <item row="0" column="0">
-       <widget class="QListWidget" name="listWidget"/>
+       <widget class="QListWidget" name="recentSpeechesListWidget"/>
       </item>
      </layout>
     </widget>
@@ -190,7 +190,6 @@
  </widget>
  <resources>
   <include location="resources.qrc"/>
-  <include location="../../../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

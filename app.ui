@@ -62,6 +62,7 @@
     </property>
     <addaction name="actionFlags"/>
     <addaction name="actionDashboard_Widgets"/>
+    <addaction name="actionPresentation_Widgets"/>
     <addaction name="actionTheme"/>
     <addaction name="actionPreference_Profiles"/>
    </widget>
@@ -103,6 +104,11 @@
   <action name="actionPreference_Profiles">
    <property name="text">
     <string>Preference Profiles</string>
+   </property>
+  </action>
+  <action name="actionPresentation_Widgets">
+   <property name="text">
+    <string>Presentation Widgets</string>
    </property>
   </action>
  </widget>

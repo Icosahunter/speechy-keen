@@ -7,4 +7,4 @@ class PresentationPage(QtWidgets.QWidget):
 
     def __init__(self):
         super(PresentationPage, self).__init__()   # call the parents init
-        uic.loadUi('presentation.ui', self)         # load the ui file
+        uic.loadUi('presentation.ui', self)        # load the ui file

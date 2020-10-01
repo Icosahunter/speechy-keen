@@ -29,9 +29,14 @@ QTabBar::tab:selected {
 }
 
 QPushButton {
+    background: rgba(0, 0, 0, 10%);
     border-radius: 5px;
-    border-width: 5px;
-    border-color: white;
+    border: 1px solid rgba(0, 0, 0, 25%);
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background: rgba(0, 0, 0, 20%);
 }
 
 QGroupBox {
@@ -48,11 +53,20 @@ QAbstractScrollArea {
     border-right: none;
 }
 
+
 QComboBox {
     background: rgba(0, 0, 0, 10%);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 25%);
+    padding: 1px;
 }
 
-QComboBox QAbstractItemView{
+QComboBox:hover {
+    background: rgba(0, 0, 0, 20%);
+    border: 1px solid rgba(0, 0, 0, 25%);
+}
+
+QComboBox QAbstractItemView {
     background: white;
     color: #333333;
     selection-background-color: gray;

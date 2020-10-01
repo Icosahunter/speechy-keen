@@ -7,4 +7,4 @@ class SpeechNotesPage(QtWidgets.QWidget):
 
     def __init__(self):
         super(SpeechNotesPage, self).__init__()   # call the parents init
-        uic.loadUi('speechnotes.ui', self)         # load the ui file
+        uic.loadUi('speechnotes.ui', self)        # load the ui file

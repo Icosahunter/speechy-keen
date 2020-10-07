@@ -53,7 +53,6 @@ QAbstractScrollArea {
     border-right: none;
 }
 
-
 QComboBox {
     background: rgba(0, 0, 0, 10%);
     border-radius: 5px;

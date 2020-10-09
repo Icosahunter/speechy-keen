@@ -1,0 +1,84 @@
+*{
+    color: white;
+    font-weight: 500;
+}
+
+QMainWindow {
+    background: qlineargradient(x1:0, y1:0, x2:0, y1:1, 
+                                stop:0 #FF5F6D, stop:1 #FFC371);
+    color: white;
+}
+
+QFrame[frameShape="4"],
+QFrame[frameShape="5"] {
+    border: none;
+    background: white;
+    min-height: 1;
+}
+
+QTabWidget {
+    background: transparent;
+}
+
+QTabWidget::pane {
+    border: none;
+}
+
+QTabBar::tab:selected {
+    color: #333333;
+}
+
+QPushButton {
+    background: rgba(0, 0, 0, 10%);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 25%);
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background: rgba(0, 0, 0, 20%);
+}
+
+QGroupBox {
+    background: transparent;
+    border: none;
+    padding-top: 25px;
+}
+
+QAbstractScrollArea {
+    background: rgba(0, 0, 0, 10%);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    border-left: none;
+    border-right: none;
+}
+
+QComboBox {
+    background: rgba(0, 0, 0, 10%);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 25%);
+    padding: 1px;
+}
+
+QComboBox:hover {
+    background: rgba(0, 0, 0, 20%);
+    border: 1px solid rgba(0, 0, 0, 25%);
+}
+
+QComboBox QAbstractItemView {
+    background: white;
+    color: #333333;
+    selection-background-color: gray;
+    selection-color: white;
+}
+
+QMenuBar QMenu {
+    background: white;
+    color: #333333;
+}
+
+QMenuBar QMenu::item:selected {
+    background: gray;
+    color: white;
+}
+

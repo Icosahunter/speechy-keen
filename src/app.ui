@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>940</width>
+    <height>590</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Speechy Keen</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/Images/SpeechyKeenLogo.png</normaloff>:/Images/SpeechyKeenLogo.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>40</width>
+    <height>40</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>940</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionDashboard"/>
+    <addaction name="actionSpeech_Notes"/>
+    <addaction name="actionPresentation"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionAll_Settings"/>
+    <addaction name="separator"/>
+    <addaction name="actionFlags"/>
+    <addaction name="actionDashboard_Widgets"/>
+    <addaction name="actionPresentation_Widgets"/>
+    <addaction name="actionTheme"/>
+    <addaction name="actionPreference_Profiles"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuView"/>
+   <addaction name="menuSettings"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionDashboard">
+   <property name="text">
+    <string>Dashboard</string>
+   </property>
+  </action>
+  <action name="actionSpeech_Notes">
+   <property name="text">
+    <string>Speech Notes</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open Speech</string>
+   </property>
+  </action>
+  <action name="actionFlags">
+   <property name="text">
+    <string>Alert Flags</string>
+   </property>
+  </action>
+  <action name="actionDashboard_Widgets">
+   <property name="text">
+    <string>Dashboard Widgets</string>
+   </property>
+  </action>
+  <action name="actionTheme">
+   <property name="text">
+    <string>Theme</string>
+   </property>
+  </action>
+  <action name="actionPreference_Profiles">
+   <property name="text">
+    <string>Preference Profiles</string>
+   </property>
+  </action>
+  <action name="actionPresentation_Widgets">
+   <property name="text">
+    <string>Presentation Widgets</string>
+   </property>
+  </action>
+  <action name="actionAll_Settings">
+   <property name="text">
+    <string>All Settings</string>
+   </property>
+  </action>
+  <action name="actionPresentation">
+   <property name="text">
+    <string>Presentation</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

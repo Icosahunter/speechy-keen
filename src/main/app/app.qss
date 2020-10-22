@@ -9,6 +9,12 @@ QMainWindow {
     color: white;
 }
 
+QWidget#Form {
+    background: qlineargradient(x1:0, y1:0, x2:0, y1:1, 
+                                stop:0 #FF5F6D, stop:1 #FFC371);
+    color: white;
+}
+
 QFrame[frameShape="4"],
 QFrame[frameShape="5"] {
     border: none;

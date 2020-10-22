@@ -1,6 +1,8 @@
 from PyQt5 import QtWidgets, uic
+from os import path
 from ..widgets.timerwidget import TimerWidget
 from ..widgets.videowidget import VideoWidget
+from PyQt5.QtCore import pyqtSlot
 
 class PresentationPage(QtWidgets.QWidget):
     """
@@ -8,8 +10,9 @@ class PresentationPage(QtWidgets.QWidget):
     """
 
     def __init__(self):
-        super(PresentationPage, self).__init__()             # call the parents init
-        uic.loadUi('src/pages/presentation.ui', self)        # load the ui file
+        super().__init__()                                    # call the parents init
+        d = path.dirname(path.realpath(__file__))
+        uic.loadUi(path.join(d, 'presentation.ui'), self)    # load the ui file
         
         # remove mockup widgets
         self.timeMockup.deleteLater()
@@ -27,11 +30,10 @@ class PresentationPage(QtWidgets.QWidget):
         self.videoWidget.mirrored = True
 
         # connect callbacks
-        self.startButton.clicked.connect(\
-            lambda : self.start_button_clicked())
-        self.stopButton.clicked.connect(\
-            lambda : self.stop_button_clicked())
+        self.startButton.clicked.connect(self.start_button_clicked)
+        self.stopButton.clicked.connect(self.stop_button_clicked)
 
+    @pyqtSlot()
     def start_button_clicked(self):
         if not self.timerWidget.timer_running:
             self.timerWidget.start_timer()
@@ -40,6 +42,7 @@ class PresentationPage(QtWidgets.QWidget):
             self.timerWidget.pause_timer()
             self.startButton.setText("resume")
 
+    @pyqtSlot()
     def stop_button_clicked(self):
         self.timerWidget.clear_timer()
         self.startButton.setText("start")

@@ -64,7 +64,7 @@
     </property>
     <addaction name="actionAll_Settings"/>
     <addaction name="separator"/>
-    <addaction name="actionFlags"/>
+    <addaction name="actionAlarm_Flags"/>
     <addaction name="actionDashboard_Widgets"/>
     <addaction name="actionPresentation_Widgets"/>
     <addaction name="actionTheme"/>
@@ -90,7 +90,7 @@
     <string>Open Speech</string>
    </property>
   </action>
-  <action name="actionFlags">
+  <action name="actionAlarm_Flags">
    <property name="text">
     <string>Alert Flags</string>
    </property>

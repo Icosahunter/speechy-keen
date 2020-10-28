@@ -14,31 +14,63 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="2">
-    <widget class="QPushButton" name="deleteButton">
-     <property name="text">
-      <string>×</string>
+   <item row="0" column="0" colspan="4">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="alarmTimeLabel">
+    <widget class="QComboBox" name="colorComboBox">
+     <item>
+      <property name="text">
+       <string>red</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>orange</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>yellow</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>green</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>teal</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>blue</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>purple</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QToolButton" name="deleteButton">
      <property name="text">
-      <string>O</string>
+      <string>x</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="alarmName">
-     <property name="text">
-      <string>3:00</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="1" colspan="2">
+    <widget class="QTimeEdit" name="timeEdit">
+     <property name="displayFormat">
+      <string>h:mm</string>
      </property>
     </widget>
    </item>

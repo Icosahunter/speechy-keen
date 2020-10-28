@@ -41,7 +41,7 @@
      <item>
       <layout class="QHBoxLayout" name="statsContainer">
        <item>
-        <widget class="QLabel" name="moodLabel">
+        <widget class="QLabel" name="moodLabelMockup">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -60,7 +60,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="wordSpeedLabel">
+        <widget class="QLabel" name="wordSpeedLabelMockup">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -225,7 +225,6 @@ nisl sed </string>
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

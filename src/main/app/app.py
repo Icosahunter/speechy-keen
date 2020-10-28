@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, uic
+from PyQt5.QtCore import QSettings, QCoreApplication
 from os import path
 from ..pages.presentation import PresentationPage
 from ..pages.dashboard import DashboardPage
@@ -12,6 +13,8 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
     def __init__(self):
         super().__init__()                                   # call the parents init
         d = path.dirname(path.realpath(__file__))
+        QCoreApplication.setOrganizationName('Nathaniel Markham')
+        QCoreApplication.setApplicationName('Speechy Keen')
         uic.loadUi(path.join(d, 'app.ui'), self)             # load the ui file
         with open(path.join(d, 'app.qss'), 'r') as f:        # open the stylesheet file
             self.setStyleSheet(f.read())                     # set the main window stylesheet

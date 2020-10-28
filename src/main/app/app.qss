@@ -34,7 +34,7 @@ QTabBar::tab:selected {
     color: #333333;
 }
 
-QPushButton {
+QAbstractButton {
     background: rgba(0, 0, 0, 10%);
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 25%);
@@ -88,3 +88,6 @@ QMenuBar QMenu::item:selected {
     color: white;
 }
 
+QTimeEdit {
+    background-color: rgba(0, 0, 0, 10%);
+} 

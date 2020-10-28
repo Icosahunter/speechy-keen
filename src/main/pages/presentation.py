@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets, uic
 from os import path
 from ..widgets.timerwidget import TimerWidget
 from ..widgets.videowidget import VideoWidget
+from ..widgets.facialanalyzerwidget import FacialAnalyzerWidget
+from ..app.data import BeginSpeechDataCollection, StopSpeechDataCollection
 from PyQt5.QtCore import pyqtSlot
 
 class PresentationPage(QtWidgets.QWidget):
@@ -17,6 +19,8 @@ class PresentationPage(QtWidgets.QWidget):
         # remove mockup widgets
         self.timeMockup.deleteLater()
         self.videoMockup.deleteLater()
+        self.moodLabelMockup.deleteLater()
+        self.wordSpeedLabelMockup.deleteLater()
 
         # add custom widgets
         self.timerWidget = TimerWidget()
@@ -25,11 +29,15 @@ class PresentationPage(QtWidgets.QWidget):
         font.setPointSize(45)
         self.timerWidget.setFont(font)
 
+        self.facialAnalyzerWidget = FacialAnalyzerWidget()
+        self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)
+
         self.videoWidget = VideoWidget(width=650, height=400)
         self.layout().addWidget(self.videoWidget, 0, 1)
         self.videoWidget.mirrored = True
 
         # connect callbacks
+        self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)
         self.startButton.clicked.connect(self.start_button_clicked)
         self.stopButton.clicked.connect(self.stop_button_clicked)
 
@@ -38,11 +46,14 @@ class PresentationPage(QtWidgets.QWidget):
         if not self.timerWidget.timer_running:
             self.timerWidget.start_timer()
             self.startButton.setText("pause")
+            StopSpeechDataCollection()
         else:
             self.timerWidget.pause_timer()
             self.startButton.setText("resume")
+            BeginSpeechDataCollection()
 
     @pyqtSlot()
     def stop_button_clicked(self):
         self.timerWidget.clear_timer()
         self.startButton.setText("start")
+        StopSpeechDataCollection()

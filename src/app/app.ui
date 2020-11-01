@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>:/Images/SpeechyKeenLogo.png</normaloff>:/Images/SpeechyKeenLogo.png</iconset>
+    <normaloff>../resources/images/SpeechyKeenLogo.png</normaloff>../resources/images/SpeechyKeenLogo.png</iconset>
   </property>
   <property name="iconSize">
    <size>
@@ -131,9 +131,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

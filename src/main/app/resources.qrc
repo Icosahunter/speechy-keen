@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="Images">
-    <file alias="VideoMockup.png">resources/images/VideoMockup.png</file>
-    <file alias="SpeechyKeenLogo.png">resources/images/SpeechyKeenLogo.png</file>
-  </qresource>
-</RCC>

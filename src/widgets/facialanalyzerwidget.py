@@ -1,8 +1,10 @@
-from fer import FER
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QThread
 from ..app.data import SubmitSpeechStreamData
+from fer import FER
+import importlib
 import numpy
+import asyncio
 
 class FacialAnalyzerWidget(QtWidgets.QLabel):
 
@@ -16,7 +18,7 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
         try:
             emotion, confidence = self.facial_analyzer.top_emotion(frame)
             self.setText('{:.0%} : {}'.format(confidence, emotion))
-            SubmitSpeechStreamData('expression', {'confidence': confidence, 'emotion': emotion})
+            #SubmitSpeechStreamData('expression', {'confidence': confidence, 'emotion': emotion})
         except:
             pass
 

@@ -70,7 +70,7 @@
    <item row="1" column="1" colspan="2">
     <widget class="QTimeEdit" name="timeEdit">
      <property name="displayFormat">
-      <string>h:mm</string>
+      <string>h:mm:ss</string>
      </property>
     </widget>
    </item>

@@ -225,7 +225,7 @@ nisl sed </string>
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../app/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

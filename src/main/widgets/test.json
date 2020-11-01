@@ -1,0 +1,68 @@
+{
+    "single_data" : 
+    {
+        "speech_name" 	: "my speech",
+        "author" 		: "Bob",
+        "speaker" 		: "Bob",
+        "speech_length" : 1000,
+        "word_count"	: 1357
+    },
+
+    "stream_data" : 
+    {
+        "expression_stream" :
+        {
+            "main_data" : "expression",
+            "colors" : 
+            {
+                "happy"   : "#FFFF00",
+                "sad"     : "#0000FF",
+                "angry"   : "#FF0000",
+                "default" : "#FFFFFF"
+            },
+            "stream" : 
+            [
+                {
+                    "expression" : "happy",
+                    "confidence" : 0.8,
+                    "time_stamp" : 20
+                },
+                {
+                    "expression" : "sad",
+                    "confidence" : 0.4,
+                    "time_stamp" : 50
+                },
+                {
+                    "expression" : "angry",
+                    "confidence" : 0.7,
+                    "time_stamp" : 100
+                }
+            ]
+        },
+
+        "disfluency_stream" :
+        {
+            "main_data" : "disfluency",
+            "colors" : 
+            {
+                "uh"      : "#FFFFFF",
+                "default" : "#FFFFFF"
+            },
+            "stream" : 
+            [
+                {
+                    "disfluency" : "uh",
+                    "time_stamp" : 30
+                },
+                {
+                    "disfluency" : "uh",
+                    "time_stamp" : 45
+                },
+                {
+                    "disfluency" : "uh",
+                    "time_stamp" : 210
+                }
+            ]
+        }
+    }
+}

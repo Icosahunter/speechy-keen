@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from datetime import datetime, timedelta
+from ..app.data import GetData
 
 class TimerWidget(QtWidgets.QLabel):
 
@@ -11,9 +12,19 @@ class TimerWidget(QtWidgets.QLabel):
         self._timer_id = None
         self.setAlignment(QtCore.Qt.AlignCenter)
         self.update_text()
+        self.base_stylesheet = 'color: white; font-weight: 500;'
 
     def timerEvent(self, event):
         self.update_text()
+        color = 'transparent'
+        max_alarm = timedelta(seconds = 0)
+        for a in GetData('presentation/alarms'):
+            t = timedelta(seconds = a['time'])
+            if self.elapsed_time >= t and self.elapsed_time <= t + timedelta(seconds = 5):
+                if t > max_alarm:
+                    max_alarm = t
+                    color = a['color']
+        self.setStyleSheet(self.base_stylesheet + 'background: ' + color + ';')
 
     def update_text(self):
         self.setText(str(self.elapsed_time).split('.')[0])

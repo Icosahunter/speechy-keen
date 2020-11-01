@@ -14,17 +14,22 @@ class AlarmConfigWidget(QtWidgets.QWidget):
             self.setStyleSheet(f.read())                            # set the main window stylesheet
         self.addAlarmButton.clicked.connect(self.add_alarm_button_clicked)
         self.alarms = {}
+        for alarm in GetData('presentation/alarms'):
+            self.add_alarm(alarm['id'], alarm['color'], alarm['time'])
 
     @pyqtSlot()
     def add_alarm_button_clicked(self):
-        alarm = AlarmItemWidget()
+        all_ids = set(range(len(self.alarms) + 1))
+        used_ids = set(self.alarms.keys())
+        id = min(all_ids - used_ids)
+        self.add_alarm(id)
+
+    def add_alarm(self, id, *args):
+        alarm = AlarmItemWidget(id, *args)
         alarm.delete_clicked_signal.connect(self.remove_alarm)
         alarm.value_changed_signal.connect(self.alarm_value_changed)
         self.alarmsListLayout.addWidget(alarm)
-        all_ids = set(range(len(self.alarms) + 1))
-        used_ids = set(self.alarms.keys())
-        alarm.id = min(all_ids - used_ids)
-        self.alarms[alarm.id] = alarm
+        self.alarms[id] = alarm
 
     @pyqtSlot(int)
     def remove_alarm(self, alarmId):
@@ -43,8 +48,8 @@ class AlarmConfigWidget(QtWidgets.QWidget):
 
     def update_saved_alarms(self):
         a = []
-        for id_num, alarm in self.alarms.items():
-            a += alarm.alarm_data
+        for id in self.alarms:
+            a.append(self.alarms[id].alarm_data)
         StoreData('presentation/alarms', a, SettingType.config)
 
         

@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from os import path
 from PyQt5.QtCore import pyqtSlot, QSettings
 from .alarmitem import AlarmItemWidget
-from ..app.data import StoreData, GetData, SettingType
+from ..app.data import store_data, get_data, SettingType
 
 class AlarmConfigWidget(QtWidgets.QWidget):
 
@@ -14,7 +14,7 @@ class AlarmConfigWidget(QtWidgets.QWidget):
             self.setStyleSheet(f.read())                            # set the main window stylesheet
         self.addAlarmButton.clicked.connect(self.add_alarm_button_clicked)
         self.alarms = {}
-        for alarm in GetData('presentation/alarms'):
+        for alarm in get_data('presentation/alarms'):
             self.add_alarm(alarm['id'], alarm['color'], alarm['time'])
 
     @pyqtSlot()
@@ -50,6 +50,6 @@ class AlarmConfigWidget(QtWidgets.QWidget):
         a = []
         for id in self.alarms:
             a.append(self.alarms[id].alarm_data)
-        StoreData('presentation/alarms', a, SettingType.config)
+        store_data('presentation/alarms', a, SettingType.config)
 
         

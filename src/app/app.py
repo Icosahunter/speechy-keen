@@ -20,7 +20,6 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
         self.show()                                          # show the ui
         self.actionAlarm_Flags.triggered.connect(\
             lambda: self.show_alarm_config())
-        self.alarm_config = AlarmConfigWidget()
         self.loader_id = self.startTimer(1000)
         self.tabWidget.addTab(LoadingPage(), "Loading...")
 
@@ -38,4 +37,4 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
         self.tabWidget.removeTab(0)
 
     def show_alarm_config(self):
-        self.alarm_config.show()
+        AlarmConfigWidget().show()

@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from datetime import datetime, timedelta
-from ..app.data import GetData
+from ..app.data import get_data, set_time_keeping
 
 class TimerWidget(QtWidgets.QLabel):
 
@@ -44,6 +44,7 @@ class TimerWidget(QtWidgets.QLabel):
         self._timer_running = True
         self._lap_time = datetime.now()
         self._timer_id = self.startTimer(500)
+        set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()
 
     def resume_timer(self):
@@ -51,6 +52,7 @@ class TimerWidget(QtWidgets.QLabel):
             self._timer_running = True
             self._lap_time = datetime.now()
             self._timer_id = self.startTimer(500)
+            set_time_keeping(self._cumul_time, self._lap_time)
             self.update_text()
 
     def pause_timer(self):
@@ -58,6 +60,7 @@ class TimerWidget(QtWidgets.QLabel):
             self.killTimer(self._timer_id)
             self._timer_running = False
             self._cumul_time += datetime.now() - self._lap_time
+            set_time_keeping(self._cumul_time, self._lap_time)
             self.update_text()
 
     def clear_timer(self):
@@ -66,6 +69,7 @@ class TimerWidget(QtWidgets.QLabel):
         self._timer_running = False
         self._lap_time = datetime.now()
         self._cumul_time = timedelta(0)
+        set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()
 
     def reset_timer(self):
@@ -74,4 +78,5 @@ class TimerWidget(QtWidgets.QLabel):
         self._cumul_time = timedelta(0)
         self._timer_running = True
         self._timer_id = self.startTimer(500)
+        set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()

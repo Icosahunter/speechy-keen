@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+
+	html{
+      		height: 100%;
+	}
+
+	body{
+		background-image: linear-gradient(#FFC371, #FF5F6D);
+		background-repeat: no-repeat;	
+		background-attachment: fixed;
+		height: 100%;
+	}
+
+	button{
+        	position: relative;
+        	background: #FFF7;
+        	border-style: none;
+        	border-radius: 50%;
+		width: 12vh;
+		box-shadow: 2px 2px #0003;
+		padding-top: 12vh;
+		margin: 1%;
+	}
+
+	.btn-contents{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.big-btn{
+		width: 25vh;
+		padding-top: 25vh;
+	}
+
+	.inc-img{
+		transform: rotate(180deg);
+	}
+
+	.arrow-img{
+		position: absolute;
+		width: 65%;
+		left: 17.5%;
+		top: 17.5%;
+	}
+
+	.bell-img{
+		position: absolute;
+		width: 80%;
+		left: 10%;
+		top: 8%;
+        }
+
+	.flex-container{
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.tally{
+		font-size: 7vh;
+		margin: 0;
+		font-weight: bold;
+		color: #FF5F6D;
+		background: transparent;
+		border: none;
+		position: absolute;
+		top: 38%;
+		left: 0px;
+		width: 100%;
+	}
+    </style>
+  </head>
+
+  <body>
+	<div class="flex-container">
+
+	<button class="big-btn">
+		<div class="btn-contents">
+			<img class="bell-img" src="https://drive.google.com/u/0/uc?id=1lob3_1574UhxJRPlrGg81nQtv8Bq3jds&export=download">
+			<p class="tally">4</p>
+		</div>
+	</button>
+
+	<button class="inc-btn" onclick="incrementClick()">
+		<div class="btn-contents">
+			<img class="arrow-img inc-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
+		</div>
+	</button>
+
+	<button class="dec-btn" onclick="decrementClick()">
+		<div class="btn-contents">
+			<img class="arrow-img dec-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
+		</div>
+	</button>
+
+    </div>
+  </body>
+  <script>
+
+		function incrementClick() {
+			sendClicks(1);
+		}
+		
+		function decrementClick() {
+			sendClicks(-1);
+		}
+
+		function sendClicks(clicks) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "/disfluencies", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("clicks=" + clicks);
+		}
+  </script>
+</html>

@@ -6,6 +6,8 @@ import socket
 
 class ServerThread(QThread):
 
+    disfluency_received_signal = pyqtSignal(int)
+
     def __init__(self, app, port):
         super().__init__()        # call parent's init
         self.app = app
@@ -21,7 +23,7 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 full_address = ip_address + ":" + str(port)
 server_thread = ServerThread(flask_app, port)
-disfluency_received_signal = pyqtSignal(int)
+disfluency_received_signal = server_thread.disfluency_received_signal
 
 @flask_app.route('/', methods=['GET'])
 def home():
@@ -34,7 +36,7 @@ def home():
 @flask_app.route('/disfluencies', methods=['GET', 'POST'])
 def disfluencies():
     if request.method == 'POST':
-        disfluency_received_signal.emit(request.form['clicks'])
+        disfluency_received_signal.emit(int(request.form['clicks']))
     return "1"
 
 def run_server():

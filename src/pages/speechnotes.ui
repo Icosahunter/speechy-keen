@@ -6,15 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>511</height>
+    <width>956</width>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="speechNameLabel">
+       <property name="text">
+        <string>Speech Name : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="speechNameEdit"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="authorLabel">
+       <property name="text">
+        <string>Author : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="authorEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
     <widget class="QGroupBox" name="promptGroupBox">
      <property name="title">
       <string>Prompts</string>
@@ -26,7 +50,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="2" column="1" rowspan="2">
     <widget class="QGroupBox" name="speechNotesGroupBox">
      <property name="title">
       <string>Speech Notes</string>

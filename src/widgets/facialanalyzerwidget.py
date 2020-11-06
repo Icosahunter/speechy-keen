@@ -26,7 +26,7 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
         try:
             emotion, confidence = self.facial_analyzer.top_emotion(frame)
             self.setText('{:.0%} : {}'.format(confidence, emotion))
-            submit_speech_stream_data('expression_stream', {'confidence': confidence, 'expression': emotion})
+            submit_speech_stream_data('expression_stream', {'confidence': str(confidence), 'expression': emotion})
         except:
             pass
 

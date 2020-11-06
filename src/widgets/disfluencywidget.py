@@ -9,13 +9,18 @@ class DisfluencyWidget(QtWidgets.QLabel):
         super().__init__()
         self.setText('🕭0')
         disfluency_received_signal.connect(self.update_disfluency_count)
+        colors = {
+            "default" : "#000000"
+        }
+        create_speech_data_stream("disfluency_stream", "disfluency", colors)
+        submit_speech_single_data('disfluency_count', 0)
         
 
     @pyqtSlot(int)
     def update_disfluency_count(self, disfluencies):
         if disfluencies > 0:
             for i in range(disfluencies):
-                submit_speech_stream_data('disfluency_stream', {'disfluency'})
+                submit_speech_stream_data('disfluency_stream', {'disfluency' : disfluencies})
         elif disfluencies < 0:
             for i in range(-disfluencies):
                 undo_last_speech_stream_data('disfluency_stream')

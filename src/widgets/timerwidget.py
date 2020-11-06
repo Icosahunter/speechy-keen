@@ -18,7 +18,7 @@ class TimerWidget(QtWidgets.QLabel):
         self.update_text()
         color = 'transparent'
         max_alarm = timedelta(seconds = 0)
-        for a in GetData('presentation/alarms'):
+        for a in get_data('presentation/alarms'):
             t = timedelta(seconds = a['time'])
             if self.elapsed_time >= t and self.elapsed_time <= t + timedelta(seconds = 5):
                 if t > max_alarm:

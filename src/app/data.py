@@ -8,10 +8,9 @@ settings = QSettings()
 
 SettingType = Enum('SettingType', 'setting config user_data app_data')
 
-current_speech_data = 
-{
-    'stream_data' = {},
-    'single_data' = {}
+current_speech_data = {
+    'stream_data' : {},
+    'single_data' : {}
 }
 
 _collecting_speech_data = False
@@ -25,8 +24,6 @@ print('Config: ' + app_config_location)
 print('Data: ' + app_data_location)
 print('Documents: ' + user_data_location)
 
-
-
 def set_time_keeping(cumul_time, lap_time):
     global _cumul_time, _lap_time
     _cumul_time = cumul_time
@@ -34,13 +31,12 @@ def set_time_keeping(cumul_time, lap_time):
 
 def get_timestamp():
     global _cumul_time, _lap_time
-    return _cumul_time + (datetime.now() - _lap_time)
-
-
+    return str(int((_cumul_time + (datetime.now() - _lap_time)).total_seconds()))
 
 def begin_speech_data_collection():
     global _collecting_speech_data
     _collecting_speech_data = True
+    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%Y %H-%M-%S')
 
 def stop_speech_data_collection():
     global _collecting_speech_data
@@ -57,7 +53,7 @@ def submit_speech_stream_data(key, data_dict):
         data = {'time_stamp' : get_timestamp()}
         for d in data_dict:
             data[d] = data_dict[d]
-        current_speech_data['stream_data'][key]['stream'] += data
+        current_speech_data['stream_data'][key]['stream'].append(data)
 
 def undo_last_speech_stream_data(key):
     global current_speech_data, _collecting_speech_data
@@ -66,8 +62,8 @@ def undo_last_speech_stream_data(key):
 
 def submit_speech_single_data(key, data):
     global current_speech_data
-    if _collecting_speech_data:
-        current_speech_data['single_data'][key] = data
+    #if _collecting_speech_data:
+    current_speech_data['single_data'][key] = data
 
 def get_speech_single_data(key):
     global current_speech_data
@@ -77,19 +73,25 @@ def get_speech_stream_data(key, index):
     global current_speech_data
     return current_speech_data['stream_data'][key]['stream'][index]
 
+def get_speech_report():
+    return current_speech_data
+
+def get_speech_report_file_name():
+    return get_speech_single_data('date')
+
 def store_data(key, data, setting_type):
 
     if setting_type == SettingType.setting:
         settings.setValue(key, data)
         
     elif setting_type == SettingType.config:
-        write_to_file(app_config_location + key + '.json', json.dumps(data))
+        write_to_file(app_config_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
 
     elif setting_type == SettingType.user_data:
-        write_to_file(user_data_location + key + '.json', json.dumps(data))
+        write_to_file(user_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
 
     elif setting_type == SettingType.app_data:
-        write_to_file(app_data_location + key + '.json', json.dumps(data))
+        write_to_file(app_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
 
 def get_data(key):
     if not settings.value(key) is None:

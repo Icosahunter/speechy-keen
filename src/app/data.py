@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings, QStandardPaths, QVariant
 from enum import Enum
 from os import path, makedirs
@@ -36,7 +37,7 @@ def get_timestamp():
 def begin_speech_data_collection():
     global _collecting_speech_data
     _collecting_speech_data = True
-    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%Y %H-%M-%S')
+    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%Y %H-%M-%S'))
 
 def stop_speech_data_collection():
     global _collecting_speech_data
@@ -110,13 +111,39 @@ def get_data(key):
                         return json.loads(f.read())
                 except:
                     raise FileNotFoundError()
-    
-def write_to_file(file_path, str_to_write):
+
+def write_to_file(file_path, str_to_write, overwrite_warning=True):
 
     directory = '/'.join(file_path.split('/')[0:-1])
 
-    if not path.exists(directory):
-        makedirs(directory)
+    overwrite = None
+    save_new = None
+    cancel = None
     
-    with open(file_path, 'w') as f:
-        f.write(str_to_write)
+    if path.exists(file_path) and overwrite_warning:
+        msg = QMessageBox()
+        msg.setText('A file with the same name already exists!')
+        overwrite = msg.addButton('Overwrite', QMessageBox.DestructiveRole)
+        save_new = msg.addButton('Save as new', QMessageBox.AcceptRole)
+        cancel = msg.addButton('Cancel', QMessageBox.RejectRole)
+        msg.setDefaultButton(QMessageBox.AcceptRole)
+        msg.exec()
+
+    if msg.clickedButton() == save_new:
+
+        file_name = (file_path.split('/')[-1]).split('.')[0]
+        file_ext = (file_path.split('/')[-1]).split('.')[1]
+        i = 0
+
+        while path.exists(directory + '/' + file_name + '(' + str(i) + ').' + file_ext):
+            i += 1
+
+        file_path = directory + '/' + file_name + '(' + str(i) + ').' + file_ext
+
+    if not msg.clickedButton() == cancel:
+
+        if not path.exists(directory):
+            makedirs(directory)
+
+        with open(file_path, 'w') as f:
+            f.write(str_to_write)

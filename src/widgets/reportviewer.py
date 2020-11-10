@@ -10,7 +10,8 @@ class ReportViewer(QtWidgets.QWidget):
         super().__init__()
         uic.loadUi(path.join(d, 'reportviewer.ui'), self)   # load the ui file
         self._plot_width = 400
-        self._plot_height = 10
+        self._plot_height = 42
+        self._legend_height = 22
         self.plotScene = None
         
     def OpenReport(self, path):
@@ -31,7 +32,7 @@ class ReportViewer(QtWidgets.QWidget):
 
             # add ruler lines to scene
             for i in range(100):
-                h = self._plot_height/20
+                h = self._plot_height/30
                 if i%50 == 0:
                     h = 16*h
                 elif i%25 == 0:
@@ -39,10 +40,17 @@ class ReportViewer(QtWidgets.QWidget):
                 elif i%5 == 0:
                     h = 4*h
                 x1 = self._plot_width*i/100
-                y1 = self._plot_height
+                y1 = self._plot_height - self._legend_height
                 x2 = self._plot_width*i/100
-                y2 = self._plot_height - h
+                y2 = self._plot_height - self._legend_height - h
                 scene.addLine(x1, y1, x2, y2)
+
+            x = 0
+            y = self._plot_height - self._legend_height
+            w = self._plot_width
+            h = self._legend_height
+            brush = QtGui.QBrush(QtGui.QColor('#AAAAAA'), Qt.SolidPattern)
+            scene.addRect(x, y, w, h, QtGui.QPen(), brush)
 
             # add data points to scene
             for d in self.report['stream_data'][key]['stream']:
@@ -50,21 +58,33 @@ class ReportViewer(QtWidgets.QWidget):
                 color = self.report['stream_data'][key]['colors'][str(d[main_data_key])]
                 brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
                 time  = d['time_stamp']
+                ellip_size = 0.5*(self._plot_height - self._legend_height)
+                ellip_margin = 0.2*(self._plot_height - self._legend_height)
+                scene.addEllipse(time*time_px, ellip_margin, ellip_size, ellip_size, QtGui.QPen(), brush)
 
-                scene.addEllipse(time*time_px, 0, self._plot_height, self._plot_height, QtGui.QPen(), brush)
+            ellip_size = 0.5*self._legend_height
+            ellip_y = self._plot_height - 1.3*ellip_size
+            txt_inc = self._plot_width / len(self.report['stream_data'][key]['colors'])
+            txt_x = ellip_size + 5
+            txt_y = self._plot_height - self._legend_height
+            # add legend entries to the report form
+            for c in self.report['stream_data'][key]['colors']:
+
+                color = self.report['stream_data'][key]['colors'][c]
+                brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
+                scene.addEllipse(txt_x - ellip_size - 1, ellip_y, ellip_size, ellip_size, QtGui.QPen(), brush)
+
+                txt = scene.addText(c)
+                txt.setPos(txt_x, txt_y)
+                txt_x += txt_inc
+
 
             # add everything to the report form
             k = QtWidgets.QLabel(self.PrettyName(key))
             v = QtWidgets.QGraphicsView(scene)
-            v.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Ignored)
+            v.setMaximumHeight(self._plot_height + 10)
+            v.setMaximumWidth(self._plot_width + 10)
             self.reportForm.addRow(k, v)
-
-            # add legend entries to the report form
-            for c in self.report['stream_data'][key]['colors']:
-                k = QtWidgets.QLabel(c)
-                v = QtWidgets.QLabel()
-                v.setStyleSheet('background: ' + self.report['stream_data'][key]['colors'][c] + ';')
-                self.reportForm.addRow(k, v)
 
         # handle creating and showing single datas
         for key in self.report['single_data']:

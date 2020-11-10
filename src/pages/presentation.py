@@ -61,4 +61,4 @@ class PresentationPage(QtWidgets.QWidget):
         self.timerWidget.clear_timer()
         self.startButton.setText('start')
         stop_speech_data_collection()
-        store_data('speech_reports/report1', get_speech_report(), SettingType.user_data)
+        store_data('speech_reports/', get_speech_report(), SettingType.user_data)

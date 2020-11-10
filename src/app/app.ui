@@ -118,13 +118,28 @@
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuDashboard_Widgets">
+     <property name="title">
+      <string>Dashboard Widgets</string>
+     </property>
+     <addaction name="actionStats"/>
+     <addaction name="actionNotes"/>
+    </widget>
+    <widget class="QMenu" name="menuPresentation_Widgets">
+     <property name="title">
+      <string>Presentation Widgets</string>
+     </property>
+     <addaction name="actionSpeech_Prompts"/>
+     <addaction name="actionFacial_Analysis"/>
+     <addaction name="actionClock"/>
+     <addaction name="actionDisfluency_Tally"/>
+    </widget>
     <addaction name="actionAll_Settings"/>
     <addaction name="separator"/>
     <addaction name="actionAlarm_Flags"/>
-    <addaction name="actionDashboard_Widgets"/>
-    <addaction name="actionPresentation_Widgets"/>
+    <addaction name="menuDashboard_Widgets"/>
+    <addaction name="menuPresentation_Widgets"/>
     <addaction name="actionTheme"/>
-    <addaction name="actionPreference_Profiles"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -151,11 +166,6 @@
     <string>Alert Flags</string>
    </property>
   </action>
-  <action name="actionDashboard_Widgets">
-   <property name="text">
-    <string>Dashboard Widgets</string>
-   </property>
-  </action>
   <action name="actionTheme">
    <property name="text">
     <string>Theme</string>
@@ -164,11 +174,6 @@
   <action name="actionPreference_Profiles">
    <property name="text">
     <string>Preference Profiles</string>
-   </property>
-  </action>
-  <action name="actionPresentation_Widgets">
-   <property name="text">
-    <string>Presentation Widgets</string>
    </property>
   </action>
   <action name="actionAll_Settings">
@@ -184,6 +189,72 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionStats">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Stats</string>
+   </property>
+  </action>
+  <action name="actionNotes">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Notes</string>
+   </property>
+  </action>
+  <action name="actionSpeech_Prompts">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Speech Prompts</string>
+   </property>
+  </action>
+  <action name="actionFacial_Analysis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Facial Analysis</string>
+   </property>
+  </action>
+  <action name="actionClock">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Clock</string>
+   </property>
+  </action>
+  <action name="actionDisfluency_Tally">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Disfluency Tally</string>
    </property>
   </action>
  </widget>

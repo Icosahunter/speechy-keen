@@ -14,7 +14,8 @@ class SpeechNotesPage(QtWidgets.QWidget):
         uic.loadUi(path.join(d, 'speechnotes.ui'), self)     # load the ui file
         self.authorEdit.textChanged.connect(self.update_author)
         self.speechNameEdit.textChanged.connect(self.update_speech_name)
-        self.promptTextEdit.textChanged.connect()
+        self.promptTextEdit.textChanged.connect(self.update_speech_prompts)
+        self.speechNotesTextEdit.textChanged.connect(self.update_speech_notes)
         self.speechNameEdit.setText('MySpeech1')
 
     @pyqtSlot()

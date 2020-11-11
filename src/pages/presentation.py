@@ -1,10 +1,12 @@
 from PyQt5 import QtWidgets, uic
 from os import path
+import math
 from ..widgets.timerwidget import TimerWidget
 from ..widgets.videowidget import VideoWidget
 from ..widgets.facialanalyzerwidget import FacialAnalyzerWidget
 from ..widgets.disfluencywidget import DisfluencyWidget
-from ..app.data import begin_speech_data_collection, stop_speech_data_collection, store_data, get_speech_single_data, get_speech_report, SettingType
+from ..widgets.reportviewer import ReportViewer
+from ..app.data import begin_speech_data_collection, stop_speech_data_collection, submit_speech_single_data, store_data, get_speech_single_data, get_speech_report, SettingType
 from PyQt5.QtCore import pyqtSlot
 
 class PresentationPage(QtWidgets.QWidget):
@@ -44,6 +46,7 @@ class PresentationPage(QtWidgets.QWidget):
         self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)
         self.startButton.clicked.connect(self.start_button_clicked)
         self.stopButton.clicked.connect(self.stop_button_clicked)
+        self.report_viewer = None
 
     @pyqtSlot()
     def start_button_clicked(self):
@@ -58,7 +61,11 @@ class PresentationPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def stop_button_clicked(self):
+        speech_len = int(math.ceil(self.timerWidget.elapsed_time.total_seconds()))
+        submit_speech_single_data('speech_length', speech_len)
         self.timerWidget.clear_timer()
         self.startButton.setText('start')
         stop_speech_data_collection()
-        store_data('speech_reports/', get_speech_report(), SettingType.user_data)
+        self.report_viewer = ReportViewer()
+        self.report_viewer.open_dict(get_speech_report())
+        self.report_viewer.show_report()

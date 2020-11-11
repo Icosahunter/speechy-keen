@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, uic
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSlot, QUrl
+from ..app.data import store_data, SettingType
 from os import path
 import json
 
@@ -9,17 +10,42 @@ class ReportViewer(QtWidgets.QWidget):
         d = path.dirname(path.realpath(__file__))
         super().__init__()
         uic.loadUi(path.join(d, 'reportviewer.ui'), self)   # load the ui file
-        self._plot_width = 400
+        self._plot_width = 600
         self._plot_height = 42
         self._legend_height = 22
+        self._report_path = None
         self.plotScene = None
-        
-    def OpenReport(self, path):
+
+    @pyqtSlot()
+    def open_file_location_button_clicked(self):
+        QtGui.QDesktopServices.openUrl(QUrl(self._report_path))
+
+    @pyqtSlot()
+    def close_button_clicked(self):
+        self.close()
+
+    @pyqtSlot()
+    def export_button_clicked(self):
+        pass
+
+    @pyqtSlot()
+    def save_button_clicked(self):
+        store_data('speech_reports/', self.report, SettingType.user_data)
+        self.saveButton.setHidden(True)
+        self.openFileLocationButton.setHidden(False)
+
+    def open_file(self, report_path):
         self.report = {}
+        self._report_path = report_path
         with open(path, 'r') as f:
             self.report = json.loads(f.read())
+        self.saveButton.setHidden(True)
+
+    def open_dict(self, report_dict):
+        self.report = report_dict
+        self.openFileLocationButton.setHidden(True)
     
-    def ShowReport(self):
+    def show_report(self):
 
         # Handle creating and showing data stream plots
         stream_count = len(self.report['stream_data'])
@@ -55,7 +81,15 @@ class ReportViewer(QtWidgets.QWidget):
             # add data points to scene
             for d in self.report['stream_data'][key]['stream']:
 
-                color = self.report['stream_data'][key]['colors'][str(d[main_data_key])]
+                color = '#000000'
+                try:
+                    color = self.report['stream_data'][key]['colors'][str(d[main_data_key])]
+                except KeyError:
+                    try:
+                        color = self.report['stream_data'][key]['colors']['default']
+                    except KeyError:
+                        pass
+
                 brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
                 time  = d['time_stamp']
                 ellip_size = 0.5*(self._plot_height - self._legend_height)
@@ -80,7 +114,7 @@ class ReportViewer(QtWidgets.QWidget):
 
 
             # add everything to the report form
-            k = QtWidgets.QLabel(self.PrettyName(key))
+            k = QtWidgets.QLabel(self.pretty_name(key))
             v = QtWidgets.QGraphicsView(scene)
             v.setMaximumHeight(self._plot_height + 10)
             v.setMaximumWidth(self._plot_width + 10)
@@ -88,9 +122,11 @@ class ReportViewer(QtWidgets.QWidget):
 
         # handle creating and showing single datas
         for key in self.report['single_data']:
-            k = QtWidgets.QLabel(self.PrettyName(key))
+            k = QtWidgets.QLabel(self.pretty_name(key))
             v = QtWidgets.QLabel(str(self.report['single_data'][key]))
             self.reportForm.addRow(k, v)
 
-    def PrettyName(self, name):
+        self.show()
+
+    def pretty_name(self, name):
         return ' '.join(x.capitalize() for x in name.split('_')) + ' : '

@@ -32,7 +32,7 @@ def set_time_keeping(cumul_time, lap_time):
 
 def get_timestamp():
     global _cumul_time, _lap_time
-    return str(int((_cumul_time + (datetime.now() - _lap_time)).total_seconds()))
+    return int((_cumul_time + (datetime.now() - _lap_time)).total_seconds())
 
 def begin_speech_data_collection():
     global _collecting_speech_data

@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSlot
-from ..app.data import create_speech_data_stream, submit_speech_stream_data, undo_last_speech_stream_data, submit_speech_single_data, get_speech_single_data
-from ..server.server import disfluency_received_signal
+from ...app.data import create_speech_data_stream, submit_speech_stream_data, undo_last_speech_stream_data, submit_speech_single_data, get_speech_single_data
+from ...server.server import disfluency_received_signal
 
 class DisfluencyWidget(QtWidgets.QLabel):
 

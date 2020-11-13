@@ -91,3 +91,7 @@ QMenuBar QMenu::item:selected {
 QTimeEdit {
     background-color: rgba(0, 0, 0, 10%);
 } 
+
+QLineEdit {
+    background-color: rgba(0, 0, 0, 10%);
+}

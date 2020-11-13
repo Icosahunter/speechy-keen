@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSlot, QThread
-from ..app.data import submit_speech_stream_data, create_speech_data_stream
+from ...app.data import submit_speech_stream_data, create_speech_data_stream
 from fer import FER
 import numpy
 
@@ -12,7 +12,8 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
         colors = {
             "happy"     : "#f5f242",
             "sad"       : "#4260f5",
-            "surprised" : "#42f54e",
+            "surprise"  : "#42f54e",
+            "fear"      : "#8f8f8f",
             "angry"     : "#f54542",
             "neutral"   : "#ffffff",
             "default"   : "#000000"

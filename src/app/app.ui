@@ -137,9 +137,9 @@
     <addaction name="actionAll_Settings"/>
     <addaction name="separator"/>
     <addaction name="actionAlarm_Flags"/>
+    <addaction name="actionScoring_Settings"/>
     <addaction name="menuDashboard_Widgets"/>
     <addaction name="menuPresentation_Widgets"/>
-    <addaction name="actionTheme"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -255,6 +255,11 @@
    </property>
    <property name="text">
     <string>Disfluency Tally</string>
+   </property>
+  </action>
+  <action name="actionScoring_Settings">
+   <property name="text">
+    <string>Scoring Settings</string>
    </property>
   </action>
  </widget>

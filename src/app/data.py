@@ -66,9 +66,18 @@ def submit_speech_single_data(key, data):
     #if _collecting_speech_data:
     current_speech_data['single_data'][key] = data
 
+def submit_speech_score_data(key, data):
+    global current_speech_data
+    #if _collecting_speech_data:
+    current_speech_data['score_data'][key] = data
+
 def get_speech_single_data(key):
     global current_speech_data
     return current_speech_data['single_data'][key]
+
+def get_speech_score_data(key):
+    global current_speech_data
+    return current_speech_data['score_data'][key]
 
 def get_speech_stream_data(key, index):
     global current_speech_data

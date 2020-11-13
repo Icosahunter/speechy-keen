@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from os import path
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from ...utils.qtimeconversion import QTime_to_seconds, seconds_to_QTime
 
 class AlarmItemWidget(QtWidgets.QWidget):
 
@@ -57,13 +58,7 @@ class AlarmItemWidget(QtWidgets.QWidget):
 
     def get_time(self):
         t = self.timeEdit.dateTime().time()
-        h = t.hour()
-        m = t.minute()
-        s = t.second()
-        return 3600*h + 60*m + s
+        return QTime_to_seconds(t)
 
     def set_time(self, sec):
-        h = sec//3600
-        m = (sec - h*3600)//60
-        s = (sec - h*3600 - m*60)
-        self.timeEdit.setTime(QtCore.QTime(h, m, s))
+        self.timeEdit.setTime(seconds_to_QTime(sec))

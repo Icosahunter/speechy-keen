@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from os import path
 from PyQt5.QtCore import pyqtSlot, QSettings
 from .alarmitem import AlarmItemWidget
-from ..app.data import store_data, get_data, SettingType
+from ...app.data import store_data, get_data, SettingType
 
 class AlarmConfigWidget(QtWidgets.QWidget):
 
@@ -10,8 +10,6 @@ class AlarmConfigWidget(QtWidgets.QWidget):
         super().__init__()
         d = path.dirname(path.realpath(__file__))
         uic.loadUi(path.join(d, 'alarmconfig.ui'), self)
-        with open(path.join(d, '../app/app.qss'), 'r') as f:        # open the stylesheet file
-            self.setStyleSheet(f.read())                            # set the main window stylesheet
         self.addAlarmButton.clicked.connect(self.add_alarm_button_clicked)
         self.alarms = {}
         for alarm in get_data('presentation/alarms'):

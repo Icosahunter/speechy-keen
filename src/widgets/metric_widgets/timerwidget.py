@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from datetime import datetime, timedelta
-from ..app.data import get_data, set_time_keeping
+from ...app.data import get_data, set_time_keeping
 
 class TimerWidget(QtWidgets.QLabel):
 

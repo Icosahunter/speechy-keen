@@ -95,3 +95,15 @@ QTimeEdit {
 QLineEdit {
     background-color: rgba(0, 0, 0, 10%);
 }
+
+TimerWidget {
+    font-size: 60px;
+}
+
+DisfluencyWidget {
+    font-size: 30px;
+}
+
+FacialAnalysisWidget {
+    font-size: 30px;
+}

@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>909</width>
-    <height>541</height>
+    <width>788</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
     <layout class="QVBoxLayout" name="sideBarContainer">
      <item>
       <widget class="QLabel" name="timeMockup">
@@ -88,6 +88,12 @@
      </item>
      <item>
       <widget class="QLabel" name="speechNotesLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <pointsize>25</pointsize>
@@ -166,22 +172,11 @@ nisl sed </string>
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="presentationSettingsContainter">
-       <item>
-        <widget class="QRadioButton" name="saveRunRadioButton">
-         <property name="text">
-          <string>Save Run</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="practiceModeRadioButton">
-         <property name="text">
-          <string>Practice Mode</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLabel" name="urlLabel">
+       <property name="text">
+        <string>url : </string>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -203,10 +198,10 @@ nisl sed </string>
      </item>
     </layout>
    </item>
-   <item row="0" column="1">
+   <item>
     <widget class="QLabel" name="videoMockup">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>

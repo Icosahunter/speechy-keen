@@ -15,10 +15,6 @@ class ImageLabel(QtWidgets.QLabel):
         self.setMinimumWidth(1)
         self.setMinimumHeight(1)
         self.setAlignment(QtCore.Qt.AlignCenter)
-        self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-
-    # def resizeEvent(self, event):
-    #     self.setPixmap(self.pixmap().scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio))
 
     def setImage(self, img):
         """ sets the pixmap of the label with special scale properties to maintain aspect ratio """

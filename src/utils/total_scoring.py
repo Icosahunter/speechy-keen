@@ -14,4 +14,4 @@ def calculate_total_score(report):
     expr_score = sum(x in expressions for x in good_expressions) / len(expressions)
     disf_score = 100*(1-pow(disfluencies,2)/(pow(disfluencies,2)+100))
     total_score = (len_score + expr_score + disf_score) / 3
-    return total_score
+    

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from PyQt5.QtCore import QThread, pyqtSignal
 from os import path
-import socket
+import netifaces
 
 
 class ServerThread(QThread):
@@ -19,8 +19,8 @@ class ServerThread(QThread):
 flask_app = Flask(__name__)              # create flask application
 flask_app.config['DEBUG'] = False        # disable debug mode
 port = 5000                              # 49152 to 65535
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
+interface = netifaces.gateways()['default'][netifaces.AF_INET][1]
+ip_address = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['addr']
 full_address = ip_address + ":" + str(port)
 server_thread = ServerThread(flask_app, port)
 disfluency_received_signal = server_thread.disfluency_received_signal

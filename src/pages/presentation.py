@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, uic
+from PyQt5.QtCore import pyqtSlot
 from os import path
 import math
 from ..widgets.videowidget import VideoWidget
@@ -6,8 +7,9 @@ from ..widgets.metric_widgets.timerwidget import TimerWidget
 #from ..widgets.metric_widgets.facialanalyzerwidget import FacialAnalyzerWidget
 from ..widgets.metric_widgets.disfluencywidget import DisfluencyWidget
 from ..widgets.reportviewer import ReportViewer
-from ..app.data import begin_speech_data_collection, stop_speech_data_collection, submit_speech_single_data, store_data, get_speech_single_data, get_speech_report, SettingType
-from PyQt5.QtCore import pyqtSlot
+from ..app.data import store_data, SettingType
+from ..app.speech_data import begin_speech_data_collection, stop_speech_data_collection, get_speech_report, submit_speech_single_data
+from ..server.server import full_address
 
 class PresentationPage(QtWidgets.QWidget):
     """
@@ -28,19 +30,18 @@ class PresentationPage(QtWidgets.QWidget):
         # add custom widgets
         self.timerWidget = TimerWidget()
         self.sideBarContainer.insertWidget(0, self.timerWidget)
-        font = self.timerWidget.font()
-        font.setPointSize(45)
-        self.timerWidget.setFont(font)
 
         #self.facialAnalyzerWidget = FacialAnalyzerWidget()
         #self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)
 
         self.disfluencyWidget = DisfluencyWidget()
-        #self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)
+        self.statsContainer.insertWidget(0, self.disfluencyWidget)
 
         self.videoWidget = VideoWidget(width=650, height=400)
-        self.layout().addWidget(self.videoWidget, 0, 1)
+        self.layout().addWidget(self.videoWidget, 1)
         self.videoWidget.mirrored = True
+
+        self.urlLabel.setText('url:  ' + full_address)
 
         # connect callbacks
         #self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)

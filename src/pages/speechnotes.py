@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
-from ..app.data import submit_speech_single_data
+from ..app.speech_data import submit_speech_single_data
 from os import path
 
 class SpeechNotesPage(QtWidgets.QWidget):

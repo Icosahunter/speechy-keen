@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSlot, QThread
-from ...app.data import submit_speech_stream_data, create_speech_data_stream
+from ...app.speech_data import speech_finished_signal, submit_speech_stream_data, create_speech_data_stream
 from fer import FER
 import numpy
 
@@ -19,7 +19,6 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
             "default"   : "#000000"
         }
         create_speech_data_stream("expression_stream", "expression", colors)
-
 
     @pyqtSlot(numpy.ndarray)
     def update_facial_analysis(self, frame):

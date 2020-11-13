@@ -15,22 +15,24 @@ class ReportViewer(QtWidgets.QWidget):
         self._legend_height = 22
         self._report_path = None
         self.plotScene = None
+        self.closeButton.clicked.connect(self.close_button_clicked)
+        self.saveButton.clicked.connect(self.save_button_clicked)
+        self.openFileLocationButton.clicked.connect(self.open_file_location_button_clicked)
 
     @pyqtSlot()
     def open_file_location_button_clicked(self):
-        QtGui.QDesktopServices.openUrl(QUrl(self._report_path))
+        directory = '/'.join(self._report_path.split('/')[0:-1])
+        url = QUrl.fromLocalFile(directory)
+        QtGui.QDesktopServices.openUrl(url)
 
     @pyqtSlot()
     def close_button_clicked(self):
         self.close()
 
     @pyqtSlot()
-    def export_button_clicked(self):
-        pass
-
-    @pyqtSlot()
     def save_button_clicked(self):
-        store_data('speech_reports/', self.report, SettingType.user_data)
+        report_file_name = self.report['single_data']['speech_name'] + ' ' + self.report['single_data']['date']
+        self._report_path = store_data('speech_reports/' + report_file_name, self.report, SettingType.user_data)
         self.saveButton.setHidden(True)
         self.openFileLocationButton.setHidden(False)
 

@@ -161,6 +161,9 @@
       <string>Recent Speeches</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="recentSpeechesListWidget"/>
+      </item>
       <item row="1" column="0">
        <layout class="QHBoxLayout" name="recentSpeechesOptionsContainer">
         <item>
@@ -184,9 +187,6 @@
          </widget>
         </item>
        </layout>
-      </item>
-      <item row="0" column="0">
-       <widget class="QListWidget" name="recentSpeechesListWidget"/>
       </item>
      </layout>
     </widget>

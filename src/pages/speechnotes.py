@@ -20,11 +20,11 @@ class SpeechNotesPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def update_author(self):
-        submit_speech_single_data('author', self.authorEdit.text)
+        submit_speech_single_data('author', self.authorEdit.text())
 
     @pyqtSlot()
     def update_speech_name(self):
-        submit_speech_single_data('speech_name', self.speechNameEdit.text)
+        submit_speech_single_data('speech_name', self.speechNameEdit.text())
 
     @pyqtSlot()
     def update_speech_prompts(self):

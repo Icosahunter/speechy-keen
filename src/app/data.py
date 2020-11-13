@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings, QStandardPaths, QVariant
 from enum import Enum
-from os import path, makedirs
+from os import path, makedirs, listdir
 import json
 from datetime import datetime
 
@@ -37,7 +37,7 @@ def get_timestamp():
 def begin_speech_data_collection():
     global _collecting_speech_data
     _collecting_speech_data = True
-    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%Y %H-%M-%S'))
+    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
 
 def stop_speech_data_collection():
     global _collecting_speech_data
@@ -82,17 +82,21 @@ def get_speech_report_file_name():
 
 def store_data(key, data, setting_type):
 
+    saved_path = None
+
     if setting_type == SettingType.setting:
         settings.setValue(key, data)
         
     elif setting_type == SettingType.config:
-        write_to_file(app_config_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+        saved_path = write_to_file(app_config_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
 
     elif setting_type == SettingType.user_data:
-        write_to_file(user_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+        saved_path = write_to_file(user_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
 
     elif setting_type == SettingType.app_data:
-        write_to_file(app_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+        saved_path = write_to_file(app_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+
+    return saved_path
 
 def get_data(key):
     if not settings.value(key) is None:
@@ -112,14 +116,60 @@ def get_data(key):
                 except:
                     raise FileNotFoundError()
 
+def get_data_keys(key):
+
+    keys_list = []
+    try:
+        keys_list.extend([x.split('.')[0] for x in listdir(app_config_location + key) if x.split('.')[1] == 'json'])
+    except FileNotFoundError:
+        pass
+
+    try:
+        keys_list.extend([x.split('.')[0] for x in listdir(app_data_location + key) if x.split('.')[1] == 'json'])
+    except FileNotFoundError:
+        pass
+    
+    try:
+        keys_list.extend([x.split('.')[0] for x in listdir(user_data_location + key) if x.split('.')[1] == 'json'])
+    except FileNotFoundError:
+        pass
+
+    return keys_list
+
+def get_data_list(key):
+
+    data_list = []
+
+    for file_name in listdir(app_config_location + key):
+        try:
+            with open(app_config_location + key + file_name, 'r') as f:
+                data_list += json.loads(f.read())
+        except:
+            pass
+    for file_name in listdir(app_data_location + key):
+        try:
+            with open(app_data_location + key + file_name, 'r') as f:
+                data_list += json.loads(f.read())
+        except:
+            pass
+    for file_name in listdir(user_data_location + key):
+        try:
+            with open(user_data_location + key + file_name, 'r') as f:
+                data_list += json.loads(f.read())
+        except:
+            pass
+    
+    return data_list
+
+
 def write_to_file(file_path, str_to_write, overwrite_warning=True):
 
     directory = '/'.join(file_path.split('/')[0:-1])
 
-    overwrite = None
-    save_new = None
-    cancel = None
+    abort = False
     
+    # If overwrite warning is enabled, and a warning window needs to be 
+    # displayed then handle the warning
     if path.exists(file_path) and overwrite_warning:
         msg = QMessageBox()
         msg.setText('A file with the same name already exists!')
@@ -129,21 +179,28 @@ def write_to_file(file_path, str_to_write, overwrite_warning=True):
         msg.setDefaultButton(QMessageBox.AcceptRole)
         msg.exec()
 
-    if msg.clickedButton() == save_new:
+        if msg.clickedButton() == save_new:
 
-        file_name = (file_path.split('/')[-1]).split('.')[0]
-        file_ext = (file_path.split('/')[-1]).split('.')[1]
-        i = 0
+            file_name = (file_path.split('/')[-1]).split('.')[0]
+            file_ext = (file_path.split('/')[-1]).split('.')[1]
+            i = 0
 
-        while path.exists(directory + '/' + file_name + '(' + str(i) + ').' + file_ext):
-            i += 1
+            while path.exists(directory + '/' + file_name + ' (' + str(i) + ').' + file_ext):
+                i += 1
 
-        file_path = directory + '/' + file_name + '(' + str(i) + ').' + file_ext
+            file_path = directory + '/' + file_name + ' (' + str(i) + ').' + file_ext
 
-    if not msg.clickedButton() == cancel:
+        if msg.clickedButton() == cancel:
+            abort = True
+
+    # If the user did not abort the save during overwrite
+    # warning, then save the file
+    if not abort:
 
         if not path.exists(directory):
             makedirs(directory)
 
         with open(file_path, 'w') as f:
             f.write(str_to_write)
+
+        return file_path

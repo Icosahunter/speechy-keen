@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QSettings, QCoreApplication, pyqtSlot, Qt
-from os import path
 from ..widgets.settings_widgets.alarmconfig import AlarmConfigWidget
 from ..widgets.settings_widgets.scoring_settings import ScoringSettings
+from ..widgets.settings_widgets.settings_info import SettingsInfo
 from ..pages.loading import LoadingPage
 from ..widgets.reportviewer import ReportViewer
+import os
 from time import sleep
 
 class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
@@ -13,19 +14,21 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
     """
     def __init__(self):
         super().__init__()                                   # call the parents init
-        d = path.dirname(path.realpath(__file__))
+        d = os.path.dirname(os.path.realpath(__file__))
         QCoreApplication.setOrganizationName('Nathaniel Markham')
         QCoreApplication.setApplicationName('Speechy Keen')
-        uic.loadUi(path.join(d, 'app.ui'), self)             # load the ui file
-        with open(path.join(d, 'app.qss'), 'r') as f:        # open the stylesheet file
+        uic.loadUi(os.path.join(d, 'app.ui'), self)             # load the ui file
+        with open(os.path.join(d, 'app.qss'), 'r') as f:        # open the stylesheet file
             self.setStyleSheet(f.read())                     # set the main window stylesheet
         self.show()                                          # show the ui
         self.actionAlarm_Flags.triggered.connect(self.show_alarm_config)
         self.actionScoring_Settings.triggered.connect(self.show_scoring_settings)
+        self.actionInfo.triggered.connect(self.show_info)
         self.loader_id = self.startTimer(1000)
         self.tabWidget.addTab(LoadingPage(), "Loading...")
         self.alarm_config = None
         self.scoring_settings = None
+        self.settings_info = None
 
     def timerEvent(self, event):
         self.load_pages()
@@ -52,3 +55,9 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
         self.scoring_settings = ScoringSettings()
         self.scoring_settings.setStyleSheet(self.styleSheet())
         self.scoring_settings.show()
+
+    @pyqtSlot()
+    def show_info(self):
+        self.settings_info = SettingsInfo()
+        self.settings_info.setStyleSheet(self.styleSheet())
+        self.settings_info.show()

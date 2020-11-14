@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic
-from os import path
+import os
 
 class LoadingPage(QtWidgets.QWidget):
     """
@@ -7,5 +7,5 @@ class LoadingPage(QtWidgets.QWidget):
     """
     def __init__(self):
         super().__init__()                              # call the parents init
-        d = path.dirname(path.realpath(__file__))
-        uic.loadUi(path.join(d, 'loading.ui'), self)    # load the ui file
+        d = os.path.dirname(os.path.realpath(__file__))
+        uic.loadUi(os.path.join(d, 'loading.ui'), self)    # load the ui file

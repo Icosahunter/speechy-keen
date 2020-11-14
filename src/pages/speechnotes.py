@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
-from ..app.speech_data import submit_speech_single_data
-from os import path
+from ..app import data
+import os
 
 class SpeechNotesPage(QtWidgets.QWidget):
     """
@@ -10,8 +10,8 @@ class SpeechNotesPage(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()                                   # call the parents init
-        d = path.dirname(path.realpath(__file__))
-        uic.loadUi(path.join(d, 'speechnotes.ui'), self)     # load the ui file
+        d = os.path.dirname(os.path.realpath(__file__))
+        uic.loadUi(os.path.join(d, 'speechnotes.ui'), self)     # load the ui file
         self.authorEdit.textChanged.connect(self.update_author)
         self.speechNameEdit.textChanged.connect(self.update_speech_name)
         self.promptTextEdit.textChanged.connect(self.update_speech_prompts)
@@ -20,11 +20,11 @@ class SpeechNotesPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def update_author(self):
-        submit_speech_single_data('author', self.authorEdit.text())
+        data.current_speech_data.submit_single('author', self.authorEdit.text())
 
     @pyqtSlot()
     def update_speech_name(self):
-        submit_speech_single_data('speech_name', self.speechNameEdit.text())
+        data.current_speech_data.submit_single('speech_name', self.speechNameEdit.text())
 
     @pyqtSlot()
     def update_speech_prompts(self):

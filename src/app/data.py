@@ -1,99 +1,103 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings, QStandardPaths, QVariant
+from .speech_data import SpeechData
 from enum import Enum
 from os import path, makedirs, listdir
 import json
 from datetime import datetime
 
 settings = QSettings()
-
-SettingType = Enum('SettingType', 'setting config user_data app_data')
+current_speech_data = SpeechData()
 
 app_data_location = QStandardPaths.standardLocations(QStandardPaths.AppDataLocation)[0] + '/SpeechyKeen/'
-app_config_location = QStandardPaths.standardLocations(QStandardPaths.AppConfigLocation)[0] + '/SpeechyKeen/'
 user_data_location = QStandardPaths.standardLocations(QStandardPaths.DocumentsLocation)[0] + '/SpeechyKeen/'
-print('Config: ' + app_config_location)
+settings_location = settings.fileName()
 print('Data: ' + app_data_location)
 print('Documents: ' + user_data_location)
 
-def store_data(key, data, setting_type):
+
+def store_data(key, data):
 
     saved_path = None
+    setting_type = key.split('/')[0]
+    key_path = '/'.join(key.split('/')[1:])
 
-    if setting_type == SettingType.setting:
-        settings.setValue(key, data)
-        
-    elif setting_type == SettingType.config:
-        saved_path = write_to_file(app_config_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+    if setting_type == 'settings':
+        settings.setValue(key_path, data)
 
-    elif setting_type == SettingType.user_data:
-        saved_path = write_to_file(user_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+    elif setting_type == 'documents':
+        saved_path = write_to_file(user_data_location + key_path + '.json', json.dumps(data, indent=4, sort_keys=True))
 
-    elif setting_type == SettingType.app_data:
-        saved_path = write_to_file(app_data_location + key + '.json', json.dumps(data, indent=4, sort_keys=True))
+    elif setting_type == 'app_data':
+        saved_path = write_to_file(app_data_location + key_path + '.json', json.dumps(data, indent=4, sort_keys=True))
+
+    else:
+        raise ValueError()
 
     return saved_path
 
 def get_data(key):
-    if not settings.value(key) is None:
-        return settings.value(key)
-    else:
+
+    setting_type = key.split('/')[0]
+    key_path = '/'.join(key.split('/')[1:])
+
+    if setting_type == 'settings':
         try:
-            with open(app_config_location + key + '.json', 'r') as f:
-                return json.loads(f.read())
+            return settings.value(key_path)
         except:
-            try:
-                with open(app_data_location + key + '.json', 'r') as f:
-                    return json.loads(f.read())
-            except:
-                try:
-                    with open(user_data_location + key + '.json', 'r') as f:
-                        return json.loads(f.read())
-                except:
-                    raise FileNotFoundError()
+            return None
+
+    elif setting_type == 'app_data':
+        try:
+            with open(app_data_location + key_path + '.json', 'r') as f:
+                return json.loads(f.read())
+        except FileNotFoundError:
+            return None
+
+    elif setting_type == 'documents':
+        try:
+            with open(user_data_location + key_path + '.json', 'r') as f:
+                return json.loads(f.read())
+        except FileNotFoundError:
+            return None
+    
+    else:
+        raise ValueError()
+
 
 def get_data_keys(key):
 
-    keys_list = []
-    try:
-        keys_list.extend([x.split('.')[0] for x in listdir(app_config_location + key) if x.split('.')[1] == 'json'])
-    except FileNotFoundError:
-        pass
+    setting_type = key.split('/')[0]
+    key_path = '/'.join(key.split('/')[1:])
 
-    try:
-        keys_list.extend([x.split('.')[0] for x in listdir(app_data_location + key) if x.split('.')[1] == 'json'])
-    except FileNotFoundError:
-        pass
-    
-    try:
-        keys_list.extend([x.split('.')[0] for x in listdir(user_data_location + key) if x.split('.')[1] == 'json'])
-    except FileNotFoundError:
-        pass
+    if setting_type == 'settings':
+        try:
+            return [x[len(key_path):] for x in settings.allKeys() if x.startswith(key_path)]
+        except FileNotFoundError:
+            return []
 
-    return keys_list
+    elif setting_type == 'app_data':
+        try:
+            return [x.split('.')[0] for x in listdir(app_data_location + key_path) if x.split('.')[1] == 'json']
+        except:
+            return []
+
+    elif setting_type == 'documents':
+        try:
+            return [x.split('.')[0] for x in listdir(user_data_location + key_path) if x.split('.')[1] == 'json']
+        except:
+            return []
+
+    else:
+        raise ValueError()
+
 
 def get_data_list(key):
 
     data_list = []
 
-    for file_name in listdir(app_config_location + key):
-        try:
-            with open(app_config_location + key + file_name, 'r') as f:
-                data_list += json.loads(f.read())
-        except:
-            pass
-    for file_name in listdir(app_data_location + key):
-        try:
-            with open(app_data_location + key + file_name, 'r') as f:
-                data_list += json.loads(f.read())
-        except:
-            pass
-    for file_name in listdir(user_data_location + key):
-        try:
-            with open(user_data_location + key + file_name, 'r') as f:
-                data_list += json.loads(f.read())
-        except:
-            pass
+    for k in get_data_keys(key):
+        data_list += get_data(key + k)
     
     return data_list
 

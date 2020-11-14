@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import pyqtSlot
 from datetime import datetime, timedelta
-from ...app.data import get_data
-from ...app.speech_data import set_time_keeping
+from ...app import data
 
 class TimerWidget(QtWidgets.QLabel):
 
@@ -14,12 +14,37 @@ class TimerWidget(QtWidgets.QLabel):
         self.setAlignment(QtCore.Qt.AlignCenter)
         self.update_text()
         self.base_stylesheet = 'color: white; font-weight: 500;'
+        data.current_speech_data.speech_started_signal.connect(self.on_speech_start)
+        data.current_speech_data.speech_finished_signal.connect(self.on_speech_end)
+        data.current_speech_data.speech_resumed_signal.connect(self.on_speech_resume)
+        data.current_speech_data.speech_paused_signal.connect(self.on_speech_pause)
+
+    @pyqtSlot()
+    def on_speech_start(self):
+        self.start_timer()
+    
+    @pyqtSlot()
+    def on_speech_end(self):
+        speech_len = self.elapsed_time
+        goal_len = data.get_data('settings/scoring/goal_speech_length')
+        len_score = abs(speech_len.total_seconds() - goal_len)/goal_len
+        data.current_speech_data.submit_single('speech_length', str(speech_len))
+        data.current_speech_data.submit_score('speech_length_score', len_score)
+        self.clear_timer()
+
+    @pyqtSlot()
+    def on_speech_pause(self):
+        self.pause_timer()
+
+    @pyqtSlot()
+    def on_speech_resume(self):
+        self.resume_timer()
 
     def timerEvent(self, event):
         self.update_text()
         color = 'transparent'
         max_alarm = timedelta(seconds = 0)
-        for a in get_data('presentation/alarms'):
+        for a in data.get_data('settings/alarms'):
             t = timedelta(seconds = a['time'])
             if self.elapsed_time >= t and self.elapsed_time <= t + timedelta(seconds = 5):
                 if t > max_alarm:
@@ -45,7 +70,7 @@ class TimerWidget(QtWidgets.QLabel):
         self._timer_running = True
         self._lap_time = datetime.now()
         self._timer_id = self.startTimer(500)
-        set_time_keeping(self._cumul_time, self._lap_time)
+        data.current_speech_data.set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()
 
     def resume_timer(self):
@@ -53,7 +78,7 @@ class TimerWidget(QtWidgets.QLabel):
             self._timer_running = True
             self._lap_time = datetime.now()
             self._timer_id = self.startTimer(500)
-            set_time_keeping(self._cumul_time, self._lap_time)
+            data.current_speech_data.set_time_keeping(self._cumul_time, self._lap_time)
             self.update_text()
 
     def pause_timer(self):
@@ -61,7 +86,7 @@ class TimerWidget(QtWidgets.QLabel):
             self.killTimer(self._timer_id)
             self._timer_running = False
             self._cumul_time += datetime.now() - self._lap_time
-            set_time_keeping(self._cumul_time, self._lap_time)
+            data.current_speech_data.set_time_keeping(self._cumul_time, self._lap_time)
             self.update_text()
 
     def clear_timer(self):
@@ -70,7 +95,7 @@ class TimerWidget(QtWidgets.QLabel):
         self._timer_running = False
         self._lap_time = datetime.now()
         self._cumul_time = timedelta(0)
-        set_time_keeping(self._cumul_time, self._lap_time)
+        data.current_speech_data.set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()
 
     def reset_timer(self):
@@ -79,5 +104,5 @@ class TimerWidget(QtWidgets.QLabel):
         self._cumul_time = timedelta(0)
         self._timer_running = True
         self._timer_id = self.startTimer(500)
-        set_time_keeping(self._cumul_time, self._lap_time)
+        data.current_speech_data.set_time_keeping(self._cumul_time, self._lap_time)
         self.update_text()

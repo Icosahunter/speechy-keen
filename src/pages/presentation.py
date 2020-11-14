@@ -1,14 +1,14 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import pyqtSlot
-from os import path
+import os
 import math
 from ..widgets.videowidget import VideoWidget
 from ..widgets.metric_widgets.timerwidget import TimerWidget
 #from ..widgets.metric_widgets.facialanalyzerwidget import FacialAnalyzerWidget
 from ..widgets.metric_widgets.disfluencywidget import DisfluencyWidget
 from ..widgets.reportviewer import ReportViewer
-from ..app.data import store_data, SettingType
-from ..app.speech_data import begin_speech_data_collection, stop_speech_data_collection, get_speech_report, submit_speech_single_data
+from ..widgets.metric_widgets.total_score import TotalScore
+from ..app import data
 from ..server.server import full_address
 
 class PresentationPage(QtWidgets.QWidget):
@@ -18,8 +18,8 @@ class PresentationPage(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()                                    # call the parents init
-        d = path.dirname(path.realpath(__file__))
-        uic.loadUi(path.join(d, 'presentation.ui'), self)    # load the ui file
+        d = os.path.dirname(os.path.realpath(__file__))
+        uic.loadUi(os.path.join(d, 'presentation.ui'), self)    # load the ui file
         
         # remove mockup widgets
         self.timeMockup.deleteLater()
@@ -41,6 +41,8 @@ class PresentationPage(QtWidgets.QWidget):
         self.layout().addWidget(self.videoWidget, 1)
         self.videoWidget.mirrored = True
 
+        self.totalScore = TotalScore()
+
         self.urlLabel.setText('url:  ' + full_address)
 
         # connect callbacks
@@ -51,22 +53,25 @@ class PresentationPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def start_button_clicked(self):
-        if not self.timerWidget.timer_running:
-            self.timerWidget.start_timer()
+        if data.current_speech_data.is_finished():
             self.startButton.setText('pause')
-            begin_speech_data_collection()
+            data.current_speech_data.start_speech()
+        if data.current_speech_data.is_paused():
+            self.startButton.setText('pause')
+            data.current_speech_data.resume_speech()
         else:
-            self.timerWidget.pause_timer()
             self.startButton.setText('resume')
-            stop_speech_data_collection()
+            data.current_speech_data.pause_speech()
 
     @pyqtSlot()
     def stop_button_clicked(self):
-        speech_len = int(math.ceil(self.timerWidget.elapsed_time.total_seconds()))
-        submit_speech_single_data('speech_length', speech_len)
-        self.timerWidget.clear_timer()
         self.startButton.setText('start')
-        stop_speech_data_collection()
+        data.current_speech_data.end_speech()
+
         self.report_viewer = ReportViewer()
-        self.report_viewer.open_dict(get_speech_report())
+        report = data.current_speech_data.get_speech_report()
+        self.report_viewer.open_dict(report)
         self.report_viewer.show_report()
+
+        data.current_speech_data.clear()
+        

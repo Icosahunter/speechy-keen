@@ -1,19 +1,21 @@
 from PyQt5 import QtWidgets, QtGui, QtCore, uic
-from os import path
+import os
 from PyQt5.QtCore import pyqtSlot, QSettings
 from .alarmitem import AlarmItemWidget
-from ...app.data import store_data, get_data, SettingType
+from ...app import data
 
 class AlarmConfigWidget(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
-        d = path.dirname(path.realpath(__file__))
-        uic.loadUi(path.join(d, 'alarmconfig.ui'), self)
+        d = os.path.dirname(os.path.realpath(__file__))
+        uic.loadUi(os.path.join(d, 'alarmconfig.ui'), self)
         self.addAlarmButton.clicked.connect(self.add_alarm_button_clicked)
         self.alarms = {}
-        for alarm in get_data('presentation/alarms'):
-            self.add_alarm(alarm['id'], alarm['color'], alarm['time'])
+        loaded_alarms = data.get_data('settings/alarms')
+        if loaded_alarms is not None:
+            for alarm in data.get_data('settings/alarms'):
+                self.add_alarm(alarm['id'], alarm['color'], alarm['time'])
 
     @pyqtSlot()
     def add_alarm_button_clicked(self):
@@ -48,6 +50,6 @@ class AlarmConfigWidget(QtWidgets.QWidget):
         a = []
         for id in self.alarms:
             a.append(self.alarms[id].alarm_data)
-        store_data('presentation/alarms', a, SettingType.config)
+        data.store_data('settings/alarms', a)
 
         

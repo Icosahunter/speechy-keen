@@ -1,83 +1,113 @@
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtCore import QSettings, QStandardPaths, QVariant, pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QObject
 from enum import Enum
 from os import path, makedirs, listdir
 import json
 from datetime import datetime
 
-current_speech_data = {
-    'stream_data' : {},
-    'single_data' : {},
-    'score_data'  : {}
-}
+class SpeechData(QObject):
 
-_collecting_speech_data = False
+    speech_finished_signal = pyqtSignal()
+    speech_started_signal = pyqtSignal()
+    speech_paused_signal = pyqtSignal()
+    speech_resumed_signal = pyqtSignal()
 
-app_data_location = QStandardPaths.standardLocations(QStandardPaths.AppDataLocation)[0] + '/SpeechyKeen/'
-app_config_location = QStandardPaths.standardLocations(QStandardPaths.AppConfigLocation)[0] + '/SpeechyKeen/'
-user_data_location = QStandardPaths.standardLocations(QStandardPaths.DocumentsLocation)[0] + '/SpeechyKeen/'
-print('Config: ' + app_config_location)
-print('Data: ' + app_data_location)
-print('Documents: ' + user_data_location)
+    def __init__(self):
+        super().__init__()
 
-def set_time_keeping(cumul_time, lap_time):
-    global _cumul_time, _lap_time
-    _cumul_time = cumul_time
-    _lap_time = lap_time
+        self._speech_data = {
+            'stream_data' : {},
+            'single_data' : {},
+            'score_data'  : {}
+        }
 
-def get_timestamp():
-    global _cumul_time, _lap_time
-    return int((_cumul_time + (datetime.now() - _lap_time)).total_seconds())
+        self._paused = True
+        self._finished = True
+        self._cumul_time = 0
+        self._lap_time = 0
 
-def begin_speech_data_collection():
-    global _collecting_speech_data
-    _collecting_speech_data = True
-    submit_speech_single_data('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
+    def set_time_keeping(self, cumul_time, lap_time):
+        self._cumul_time = cumul_time
+        self._lap_time = lap_time
 
-def stop_speech_data_collection():
-    global _collecting_speech_data
-    _collecting_speech_data = False
-
-def create_speech_data_stream(stream_name, main_data_key, colors_dict):
-    global current_speech_data
-    stream = {'main_data' : main_data_key, 'colors' : colors_dict, 'stream' : []}
-    current_speech_data['stream_data'][stream_name] = stream
-
-def submit_speech_stream_data(key, data_dict):
-    global current_speech_data, _collecting_speech_data
-    if _collecting_speech_data:
-        data = {'time_stamp' : get_timestamp()}
-        for d in data_dict:
-            data[d] = data_dict[d]
-        current_speech_data['stream_data'][key]['stream'].append(data)
-
-def undo_last_speech_stream_data(key):
-    global current_speech_data, _collecting_speech_data
-    if _collecting_speech_data:
-        current_speech_data.popitem()
-
-def submit_speech_single_data(key, data):
-    global current_speech_data
-    current_speech_data['single_data'][key] = data
+    def get_timestamp(self):
+        return int((self._cumul_time + (datetime.now() - self._lap_time)).total_seconds())
 
 
-def submit_speech_score_data(key, data):
-    global current_speech_data
-    current_speech_data['score_data'][key] = data
 
-def get_speech_score_data(key):
-    global current_speech_data
-    return current_speech_data['score_data'][key]
+    def start_speech(self):
+        self._paused = False
+        self._finished = False
+        self.speech_started_signal.emit()
+        self.submit_speech_single_data('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
+
+    def end_speech(self):
+        self._finished = True
+        self._paused = True
+        self.speech_finished_signal.emit()
+
+    def resume_speech(self):
+        self._paused = False
+        self.speech_resumed_signal.emit()
+
+    def pause_speech(self):
+        self._paused = True
+        self.speech_paused_signal.emit()
+
+    def clear(self):
+        self._speech_data = {
+            'stream_data' : {},
+            'single_data' : {},
+            'score_data'  : {}
+        }
+
+    def is_paused(self):
+        return self._paused
+
+    def is_finished(self):
+        return self._finished
+    
 
 
-def get_speech_single_data(key):
-    global current_speech_data
-    return current_speech_data['single_data'][key]
+    def create_stream(self, stream_name, main_data_key, colors_dict):
+        stream = {'main_data' : main_data_key, 'colors' : colors_dict, 'stream' : []}
+        self._speech_data['stream_data'][stream_name] = stream
 
-def get_speech_stream_data(key, index):
-    global current_speech_data
-    return current_speech_data['stream_data'][key]['stream'][index]
+    def submit_stream_data(self, key, data_dict):
+        if self._collecting_speech_data:
+            data = {'time_stamp' : self.get_timestamp()}
+            for d in data_dict:
+                data[d] = data_dict[d]
+            self._speech_data['stream_data'][key]['stream'].append(data)
+
+    def undo_last_stream_data(self, key):
+        if self._collecting_speech_data:
+            self._speech_data.popitem()
+
+    def get_stream(self, key):
+        return self._speech_data['stream_data'][key]['stream']
+
+    def get_stream_data(self, key, index):
+        return self._speech_data['stream_data'][key]['stream'][index]
 
 
-def get_speech_report():
-    return current_speech_data
+
+    def submit_single(self, key, data):
+        self._speech_data['single_data'][key] = data
+
+    def get_single(self, key):
+        return self._speech_data['single_data'][key]
+
+
+
+    def submit_score(self, key, data):
+        self._speech_data['score_data'][key] = data
+
+    def get_score(self, key):
+        return self._speech_data['score_data'][key]
+
+    def get_all_scores(self):
+        return self._speech_data['score_data'].values()
+
+
+    def get_speech_report(self):
+        return self._speech_data

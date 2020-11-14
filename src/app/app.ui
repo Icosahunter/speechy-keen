@@ -140,6 +140,7 @@
     <addaction name="actionScoring_Settings"/>
     <addaction name="menuDashboard_Widgets"/>
     <addaction name="menuPresentation_Widgets"/>
+    <addaction name="actionInfo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -260,6 +261,11 @@
   <action name="actionScoring_Settings">
    <property name="text">
     <string>Scoring Settings</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="text">
+    <string>Info</string>
    </property>
   </action>
  </widget>

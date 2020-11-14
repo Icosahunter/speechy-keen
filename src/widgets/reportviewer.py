@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtCore import Qt, pyqtSlot, QUrl
-from ..app.data import store_data, SettingType
+from ..app.data import store_data
 from os import path
 import json
 
@@ -32,7 +32,7 @@ class ReportViewer(QtWidgets.QWidget):
     @pyqtSlot()
     def save_button_clicked(self):
         report_file_name = self.report['single_data']['speech_name'] + ' ' + self.report['single_data']['date']
-        self._report_path = store_data('speech_reports/' + report_file_name, self.report, SettingType.user_data)
+        self._report_path = store_data('documents/speech_reports/' + report_file_name, self.report)
         self.saveButton.setHidden(True)
         self.openFileLocationButton.setHidden(False)
 

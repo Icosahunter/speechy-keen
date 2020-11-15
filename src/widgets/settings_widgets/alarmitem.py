@@ -1,27 +1,27 @@
 from PyQt5 import QtWidgets, QtGui, QtCore, uic
 from os import path
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from ...utils.qtimeconversion import QTime_to_seconds, seconds_to_QTime
+from ...utils import qtimeconversion as qtc
 
 class AlarmItemWidget(QtWidgets.QWidget):
 
     delete_clicked_signal = pyqtSignal(int)
     value_changed_signal = pyqtSignal(int)
 
-    def __init__(self, id=0, color = 'red', time = 0):
+    def __init__(self, id=0, color = 'red', time_str = '00:00:00'):
 
         super().__init__()
         d = path.dirname(path.realpath(__file__))
         uic.loadUi(path.join(d, 'alarmitem.ui'), self)
         
         self.colorComboBox.setCurrentText(color)
-        self.set_time(time)
+        self.set_time(time_str)
 
         self.deleteButton.clicked.connect(self.delete_button_clicked)
         self.timeEdit.timeChanged.connect(self.time_changed)
         self.colorComboBox.currentIndexChanged.connect(self.color_changed)
 
-        self.alarm_data = { 'id' : id, 'color' : color, 'time' : time }
+        self.alarm_data = { 'id' : id, 'color' : color, 'time' : time_str }
     
     @pyqtSlot()
     def delete_button_clicked(self):
@@ -58,7 +58,7 @@ class AlarmItemWidget(QtWidgets.QWidget):
 
     def get_time(self):
         t = self.timeEdit.dateTime().time()
-        return QTime_to_seconds(t)
+        return qtc.QTime_to_str(t)
 
-    def set_time(self, sec):
-        self.timeEdit.setTime(seconds_to_QTime(sec))
+    def set_time(self, time_str):
+        self.timeEdit.setTime(qtc.str_to_QTime(time_str))

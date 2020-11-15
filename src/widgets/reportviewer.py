@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtCore import Qt, pyqtSlot, QUrl
 from ..app.data import store_data
+from ..utils import qtimeconversion as qtc
 from os import path
 import json
 
@@ -51,7 +52,8 @@ class ReportViewer(QtWidgets.QWidget):
 
         # Handle creating and showing data stream plots
         stream_count = len(self.report['stream_data'])
-        time_px = (self._plot_width - 50)/self.report['single_data']['speech_length']
+        speech_len = qtc.str_to_seconds(self.report['single_data']['speech_length'])
+        time_px = (self._plot_width - 50)/speech_len
 
         for key in self.report['stream_data']:
 

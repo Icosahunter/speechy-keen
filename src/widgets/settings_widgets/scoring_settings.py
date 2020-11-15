@@ -3,7 +3,7 @@ import os
 from PyQt5.QtCore import pyqtSlot, QSettings
 from .alarmitem import AlarmItemWidget
 from ...app import data
-from ...utils.qtimeconversion import QTime_to_seconds, seconds_to_QTime
+from ...utils import qtimeconversion as qtc
 
 class ScoringSettings(QtWidgets.QWidget):
 
@@ -19,9 +19,9 @@ class ScoringSettings(QtWidgets.QWidget):
 
         try:
             t = data.get_data('settings/scoring/goal_speech_length')
-            self.goalTimeEdit.setTime(seconds_to_QTime(t))
+            self.goalTimeEdit.setTime(qtc.str_to_QTime(t))
         except:
-            self.goalTimeEdit.setTime(seconds_to_QTime(240))
+            self.goalTimeEdit.setTime(qtc.str_to_QTime('00:04:00'))
 
         try:
             expressions = data.get_data('settings/scoring/good_expressions')
@@ -31,7 +31,8 @@ class ScoringSettings(QtWidgets.QWidget):
 
     @pyqtSlot()
     def goal_time_edit_changed(self):
-        t = QTime_to_seconds(self.goalTimeEdit.dateTime().time())
+        t = self.goalTimeEdit.dateTime().time()
+        t = qtc.QTime_to_str(t)
         data.store_data('settings/scoring/goal_speech_length', t)
     
     @pyqtSlot()

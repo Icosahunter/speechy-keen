@@ -56,7 +56,7 @@ class PresentationPage(QtWidgets.QWidget):
         if data.current_speech_data.is_finished():
             self.startButton.setText('pause')
             data.current_speech_data.start_speech()
-        if data.current_speech_data.is_paused():
+        elif data.current_speech_data.is_paused():
             self.startButton.setText('pause')
             data.current_speech_data.resume_speech()
         else:

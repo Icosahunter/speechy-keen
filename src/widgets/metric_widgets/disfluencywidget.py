@@ -31,15 +31,17 @@ class DisfluencyWidget(QtWidgets.QLabel):
 
     @pyqtSlot(int)
     def update_disfluency_count(self, disfluencies):
-        if disfluencies > 0:
-            for i in range(disfluencies):
-                data.current_speech_data.submit_stream_data('disfluency_stream', {'disfluency' : disfluencies})
-        elif disfluencies < 0:
-            for i in range(-disfluencies):
-                data.current_speech_data.undo_last_stream_data('disfluency_stream')
-        
-        tally = data.current_speech_data.get_single('disfluency_count') + disfluencies
-    
-        data.current_speech_data.submit_stream_data('disfluency_count', tally)
 
-        self.setText('🕭' + str(tally))
+        if not data.current_speech_data.is_paused():
+            if disfluencies > 0:
+                for i in range(disfluencies):
+                    data.current_speech_data.submit_stream_data('disfluency_stream', {'disfluency' : disfluencies})
+            elif disfluencies < 0:
+                for i in range(-disfluencies):
+                    data.current_speech_data.undo_last_stream_data('disfluency_stream')
+            
+            tally = data.current_speech_data.get_single('disfluency_count') + disfluencies
+
+            data.current_speech_data.submit_single('disfluency_count', tally)
+
+            self.setText('🕭' + str(tally))

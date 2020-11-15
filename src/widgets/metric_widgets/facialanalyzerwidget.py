@@ -39,10 +39,10 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
     @pyqtSlot(numpy.ndarray)
     def update_facial_analysis(self, frame):
 
-        try:
-            emotion, confidence = self.facial_analyzer.top_emotion(frame)
-            self.setText('{:.0%} : {}'.format(confidence, emotion))
-            data.current_speech_data.submit_stream_data('expression_stream', {'confidence': str(confidence), 'expression': emotion})
-        except:
-            pass
-
+        if not data.current_speech_data.is_paused():
+            try:
+                emotion, confidence = self.facial_analyzer.top_emotion(frame)
+                self.setText('{:.0%} : {}'.format(confidence, emotion))
+                data.current_speech_data.submit_stream_data('expression_stream', {'confidence': str(confidence), 'expression': emotion})
+            except:
+                pass

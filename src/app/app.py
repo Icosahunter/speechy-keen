@@ -26,9 +26,9 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
         self.actionInfo.triggered.connect(self.show_info)
         self.loader_id = self.startTimer(1000)
         self.tabWidget.addTab(LoadingPage(), "Loading...")
-        self.alarm_config = None
-        self.scoring_settings = None
-        self.settings_info = None
+        self.alarm_config = AlarmConfigWidget()
+        self.scoring_settings = ScoringSettings()
+        self.settings_info = SettingsInfo()
 
     def timerEvent(self, event):
         self.load_pages()

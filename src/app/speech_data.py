@@ -38,7 +38,7 @@ class SpeechData(QObject):
         self._paused = False
         self._finished = False
         self.speech_started_signal.emit()
-        self.submit_speech_single_data('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
+        self.submit_single('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
 
     def end_speech(self):
         self._finished = True
@@ -66,22 +66,18 @@ class SpeechData(QObject):
     def is_finished(self):
         return self._finished
     
-
-
     def create_stream(self, stream_name, main_data_key, colors_dict):
         stream = {'main_data' : main_data_key, 'colors' : colors_dict, 'stream' : []}
         self._speech_data['stream_data'][stream_name] = stream
 
     def submit_stream_data(self, key, data_dict):
-        if self._collecting_speech_data:
-            data = {'time_stamp' : self.get_timestamp()}
-            for d in data_dict:
-                data[d] = data_dict[d]
-            self._speech_data['stream_data'][key]['stream'].append(data)
+        data = {'time_stamp' : self.get_timestamp()}
+        for d in data_dict:
+            data[d] = data_dict[d]
+        self._speech_data['stream_data'][key]['stream'].append(data)
 
     def undo_last_stream_data(self, key):
-        if self._collecting_speech_data:
-            self._speech_data.popitem()
+        self._speech_data['stream_data'][key]['stream'].pop()
 
     def get_stream(self, key):
         return self._speech_data['stream_data'][key]['stream']

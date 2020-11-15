@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import pyqtSlot
 from datetime import datetime, timedelta
+from ...utils import qtimeconversion as qtc
 from ...app import data
 
 class TimerWidget(QtWidgets.QLabel):
@@ -26,10 +27,14 @@ class TimerWidget(QtWidgets.QLabel):
     @pyqtSlot()
     def on_speech_end(self):
         speech_len = self.elapsed_time
-        goal_len = data.get_data('settings/scoring/goal_speech_length')
+        
+        goal_len = qtc.str_to_seconds(data.get_data('settings/scoring/goal_speech_length'))
+        
         len_score = abs(speech_len.total_seconds() - goal_len)/goal_len
-        data.current_speech_data.submit_single('speech_length', str(speech_len))
+        
+        data.current_speech_data.submit_single('speech_length', qtc.timedelta_to_str(speech_len))
         data.current_speech_data.submit_score('speech_length_score', len_score)
+        
         self.clear_timer()
 
     @pyqtSlot()
@@ -45,7 +50,7 @@ class TimerWidget(QtWidgets.QLabel):
         color = 'transparent'
         max_alarm = timedelta(seconds = 0)
         for a in data.get_data('settings/alarms'):
-            t = timedelta(seconds = a['time'])
+            t = qtc.str_to_timedelta(a['time'])
             if self.elapsed_time >= t and self.elapsed_time <= t + timedelta(seconds = 5):
                 if t > max_alarm:
                     max_alarm = t

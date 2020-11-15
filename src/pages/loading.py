@@ -3,7 +3,7 @@ import os
 
 class LoadingPage(QtWidgets.QWidget):
     """
-        The dashboard mode page widget
+        Widget which simply displays the logo and a loading message.
     """
     def __init__(self):
         super().__init__()                              # call the parents init

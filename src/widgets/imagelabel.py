@@ -10,8 +10,9 @@ class ImageLabel(QtWidgets.QLabel):
         area it is given.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)           # call the parents init
+    def __init__(self):
+        """ The constructor """
+        super().__init__()              # call the parents init
         self.setMinimumWidth(1)
         self.setMinimumHeight(1)
         self.setAlignment(QtCore.Qt.AlignCenter)

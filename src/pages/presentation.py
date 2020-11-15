@@ -13,10 +13,15 @@ from ..server.server import full_address
 
 class PresentationPage(QtWidgets.QWidget):
     """
-        The presentation mode page widget
+        The presentation page widget
+
+        This is the primary page for the application. It has 
+        the video feed, allows starting and ending the speech,
+        and shows feedback for the speech.
     """
 
     def __init__(self):
+        """ The constructor """
         super().__init__()                                    # call the parents init
         d = os.path.dirname(os.path.realpath(__file__))
         uic.loadUi(os.path.join(d, 'presentation.ui'), self)    # load the ui file
@@ -53,6 +58,7 @@ class PresentationPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def start_button_clicked(self):
+        """ Callback for the start/pause/resume speech button. """
         if data.current_speech_data.is_finished():
             self.startButton.setText('pause')
             data.current_speech_data.start_speech()
@@ -65,6 +71,7 @@ class PresentationPage(QtWidgets.QWidget):
 
     @pyqtSlot()
     def stop_button_clicked(self):
+        """ Callback for the stop speech button. """
         self.startButton.setText('start')
         data.current_speech_data.end_speech()
 

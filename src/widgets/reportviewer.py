@@ -6,8 +6,10 @@ from os import path
 import json
 
 class ReportViewer(QtWidgets.QWidget):
+    """ A widget that displays a speech report """
 
     def __init__(self):
+        """ The constructor """
         d = path.dirname(path.realpath(__file__))
         super().__init__()
         uic.loadUi(path.join(d, 'reportviewer.ui'), self)   # load the ui file
@@ -22,22 +24,26 @@ class ReportViewer(QtWidgets.QWidget):
 
     @pyqtSlot()
     def open_file_location_button_clicked(self):
+        """ Callback that executes when the open file location button is clicked """
         directory = '/'.join(self._report_path.split('/')[0:-1])
         url = QUrl.fromLocalFile(directory)
         QtGui.QDesktopServices.openUrl(url)
 
     @pyqtSlot()
     def close_button_clicked(self):
+        """" Callback that executes when the close button is clicked """"
         self.close()
 
     @pyqtSlot()
     def save_button_clicked(self):
+        """ Callback that executes when the save button is clicked """
         report_file_name = self.report['single_data']['speech_name'] + ' ' + self.report['single_data']['date']
         self._report_path = store_data('documents/speech_reports/' + report_file_name, self.report)
         self.saveButton.setHidden(True)
         self.openFileLocationButton.setHidden(False)
 
     def open_file(self, report_path):
+        """ Loads a report from a file """
         self.report = {}
         self._report_path = report_path
         with open(path, 'r') as f:
@@ -45,11 +51,12 @@ class ReportViewer(QtWidgets.QWidget):
         self.saveButton.setHidden(True)
 
     def open_dict(self, report_dict):
+        """ Loads a report from a dictionary object """
         self.report = report_dict
         self.openFileLocationButton.setHidden(True)
     
     def show_report(self):
-
+        """ Builds the graphical representation of the report and shows the widget """
         # Handle creating and showing data stream plots
         stream_count = len(self.report['stream_data'])
         speech_len = qtc.str_to_seconds(self.report['single_data']['speech_length'])
@@ -133,4 +140,5 @@ class ReportViewer(QtWidgets.QWidget):
         self.show()
 
     def pretty_name(self, name):
+        """ Converts a lowercase underscored string to capitalized and spaced """
         return ' '.join(x.capitalize() for x in name.split('_')) + ' : '

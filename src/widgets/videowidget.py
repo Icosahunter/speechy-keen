@@ -14,8 +14,9 @@ class VideoWidget(ImageLabel):
 
     frame_signal = pyqtSignal(numpy.ndarray)
 
-    def __init__(self, camera_index = 0, width = None, height = None, *args, **kwargs):
-        super().__init__(*args, **kwargs)                     # call the parents init
+    def __init__(self, camera_index = 0, width = None, height = None):
+        """ The constructor """
+        super().__init__()                     # call the parents init
         self.video_feed = VideoFeed(camera_index, width, height)
         self.video_feed.new_frame_signal.connect(self._update_label_image)
         self.mirrored = False
@@ -25,6 +26,7 @@ class VideoWidget(ImageLabel):
 
     @pyqtSlot(numpy.ndarray)
     def _update_label_image(self, frame):
+        """ Callback that receives a frame and updates the label pixmap with the new frame """
         height, width, color_channels = frame.shape
         bytes_per_line = 3 * width
         qImg = QtGui.QImage(frame.data, width, height, bytes_per_line, QtGui.QImage.Format_RGB888)

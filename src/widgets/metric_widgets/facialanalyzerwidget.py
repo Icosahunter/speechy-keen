@@ -5,8 +5,10 @@ from fer import FER
 import numpy
 
 class FacialAnalyzerWidget(QtWidgets.QLabel):
+    """ A metric widget for tracking facial expressions """
 
     def __init__(self):
+        """  """
         super().__init__()
         self.facial_analyzer = FER()
         data.current_speech_data.speech_started_signal.connect(self.on_speech_start)
@@ -15,6 +17,7 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
 
     @pyqtSlot()
     def on_speech_start(self):
+        """ Callback that executes when the speech starts """
         colors = {
             "happy"     : "#f5f242",
             "sad"       : "#4260f5",
@@ -28,6 +31,7 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
 
     @pyqtSlot()
     def on_speech_end(self):
+        """ Callback that executes when the speech ends """
         good_expressions = data.get_data('settings/scoring/good_expressions').split(', ')
     
         expressions = data.current_speech_data.get_stream('expression_stream')
@@ -38,6 +42,7 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
 
     @pyqtSlot(numpy.ndarray)
     def update_facial_analysis(self, frame):
+        """ Callback that executes when a new frame for analysis is received """
 
         if not data.current_speech_data.is_paused():
             try:

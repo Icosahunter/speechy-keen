@@ -5,20 +5,22 @@ import netifaces
 
 
 class ServerThread(QThread):
-
+    """ The thread the server runs in """
     disfluency_received_signal = pyqtSignal(int)
 
     def __init__(self, app, port):
+        """ The constructor """
         super().__init__()        # call parent's init
         self.app = app
         self.port = port
 
     def run(self):
+        """ Runs when the thread is started. Runs the server. """
         self.app.run(host='0.0.0.0', port=self.port)
 
 flask_app = Flask(__name__)              # create flask application
 flask_app.config['DEBUG'] = False        # disable debug mode
-port = 5000                              # 49152 to 65535
+port = 5000
 interface = netifaces.gateways()['default'][netifaces.AF_INET][1]
 ip_address = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['addr']
 full_address = ip_address + ":" + str(port)

@@ -1,3 +1,11 @@
+""" 
+    A module-level object that allows for global data access for the entire app
+    
+    This data object allows any object in the application to access settings,
+    application data, documents (like speech reports), or the current speech
+    data (which is manipulated primarily by metric widgets)
+"""
+
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings, QStandardPaths, QVariant
 from .speech_data import SpeechData
@@ -17,6 +25,15 @@ print('Documents: ' + user_data_location)
 
 
 def store_data(key, data):
+    """ 
+        Store data under a certain key
+
+        The key should be formatted similar to a path with '/' delimeters.
+        The first part of the key determines how it is stored. This will either
+        be 'settings', 'app_data', or 'documents'. Settings is stored through
+        Qt's built in settings object, while app_data and documents are stored
+        in the file system as JSON files.
+    """
 
     saved_path = None
     setting_type = key.split('/')[0]
@@ -36,7 +53,13 @@ def store_data(key, data):
 
     return saved_path
 
+
 def get_data(key):
+    """ 
+        Get data using it's key
+
+        See "store_data" for details on key format
+    """
 
     setting_type = key.split('/')[0]
     key_path = '/'.join(key.split('/')[1:])
@@ -67,6 +90,14 @@ def get_data(key):
 
 def get_data_keys(key):
 
+    """
+        Get's a list of keys that start with the given key.
+
+        For data stored as JSON files this amounts to searching
+        the path that the given key represents for any JSON files
+        located there.
+    """
+
     setting_type = key.split('/')[0]
     key_path = '/'.join(key.split('/')[1:])
 
@@ -93,6 +124,14 @@ def get_data_keys(key):
 
 
 def get_data_list(key):
+    """
+        Get all data objects who's keys start with the given key.
+
+        For data stored as JSON files this amounts to searching
+        the path that the given key represents for any JSON files
+        located there and returning the parsed JSON object for those
+        files.
+    """
 
     data_list = []
 
@@ -103,6 +142,14 @@ def get_data_list(key):
 
 
 def write_to_file(file_path, str_to_write, overwrite_warning=True):
+    """
+        A safe file writing function used when 'store_data' is called.
+
+        This function creates a directory if it doesn't exist, and if
+        overwrite_warning is true it will show a dialog to the user
+        if the file exists and hence writing to it would overwrite existing
+        data.
+    """
 
     directory = '/'.join(file_path.split('/')[0:-1])
 

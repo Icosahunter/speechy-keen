@@ -5,8 +5,10 @@ from .alarmitem import AlarmItemWidget
 from ...app import data
 
 class SettingsInfo(QtWidgets.QWidget):
+    """ Widget that displays some info about the application """
 
     def __init__(self):
+        """ The constructor """
         super().__init__()
         d = os.path.dirname(os.path.realpath(__file__))
         uic.loadUi(os.path.join(d, 'settings_info.ui'), self)

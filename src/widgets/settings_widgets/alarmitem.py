@@ -9,6 +9,7 @@ class AlarmItemWidget(QtWidgets.QWidget):
     value_changed_signal = pyqtSignal(int)
 
     def __init__(self, id=0, color = 'red', time_str = '00:00:00'):
+        """ The constructor """
 
         super().__init__()
         d = path.dirname(path.realpath(__file__))
@@ -25,19 +26,23 @@ class AlarmItemWidget(QtWidgets.QWidget):
     
     @pyqtSlot()
     def delete_button_clicked(self):
+        """ Callback that executes when the delete (X) button is clicked """
         self.delete_clicked_signal.emit(self.alarm_data['id'])
 
     @pyqtSlot()
     def time_changed(self):
+        """ Callback that executes when the time edit value changes """
         self.alarm_data['time'] = self.get_time()
         self.value_changed_signal.emit(self.alarm_data['id'])
 
     @pyqtSlot()
     def color_changed(self):
+        """ Callback that executes when the color selector value changes """
         self.alarm_data['color'] = self.get_color()
         self.value_changed_signal.emit(self.alarm_data['id'])
 
     def get_color(self):
+        """ Return current selected color as string hex value """
         c = self.colorComboBox.currentText()
         if c == 'red':
             return '#c20000'
@@ -57,8 +62,18 @@ class AlarmItemWidget(QtWidgets.QWidget):
             return '#000000'
 
     def get_time(self):
+        """ 
+            Returns current selected time as a string
+
+            String will be of format HH:MM:SS
+        """
         t = self.timeEdit.dateTime().time()
         return qtc.QTime_to_str(t)
 
     def set_time(self, time_str):
+        """ 
+            Sets current selected time from the given string
+
+            String will be of format HH:MM:SS
+        """
         self.timeEdit.setTime(qtc.str_to_QTime(time_str))

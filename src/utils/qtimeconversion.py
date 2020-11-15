@@ -1,4 +1,5 @@
 
+""" Contains functions for converting between QTime, timedelta, and strings """
 from PyQt5.QtCore import QTime
 from datetime import timedelta
 

@@ -5,8 +5,10 @@ from ...utils import qtimeconversion as qtc
 from ...app import data
 
 class TimerWidget(QtWidgets.QLabel):
+    """ A metric widget for keeping time """
 
     def __init__(self):
+        """ The constructor """
         super().__init__()
         self._lap_time = datetime.now()
         self._cumul_time = timedelta(0)
@@ -22,10 +24,12 @@ class TimerWidget(QtWidgets.QLabel):
 
     @pyqtSlot()
     def on_speech_start(self):
+        """ Callback that executes when the speech starts """
         self.start_timer()
     
     @pyqtSlot()
     def on_speech_end(self):
+        """ Callback that executes when the speech ends """
         speech_len = self.elapsed_time
         
         goal_len = qtc.str_to_seconds(data.get_data('settings/scoring/goal_speech_length'))
@@ -39,13 +43,16 @@ class TimerWidget(QtWidgets.QLabel):
 
     @pyqtSlot()
     def on_speech_pause(self):
+        """ Callback that executes when the speech gets paused """
         self.pause_timer()
 
     @pyqtSlot()
     def on_speech_resume(self):
+        """ Callback that executes when the speech resumes """
         self.resume_timer()
 
     def timerEvent(self, event):
+        """ Callback for this widgets timer which will execute every half second """
         self.update_text()
         color = 'transparent'
         max_alarm = timedelta(seconds = 0)
@@ -58,6 +65,7 @@ class TimerWidget(QtWidgets.QLabel):
         self.setStyleSheet(self.base_stylesheet + 'background: ' + color + ';')
 
     def update_text(self):
+        """ Updates the text of the timer """
         self.setText(str(self.elapsed_time).split('.')[0])
 
     @property

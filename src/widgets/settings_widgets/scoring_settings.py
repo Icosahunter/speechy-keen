@@ -6,8 +6,10 @@ from ...app import data
 from ...utils import qtimeconversion as qtc
 
 class ScoringSettings(QtWidgets.QWidget):
+    """ Widget for settings some settings for scoring speeches """
 
     def __init__(self):
+        """ The constructor """
         super().__init__()
         d = os.path.dirname(os.path.realpath(__file__))
         uic.loadUi(os.path.join(d, 'scoring_settings.ui'), self)
@@ -16,7 +18,7 @@ class ScoringSettings(QtWidgets.QWidget):
         self.load_settings()
     
     def load_settings(self):
-
+        """ Loads the settings from file """
         try:
             t = data.get_data('settings/scoring/goal_speech_length')
             self.goalTimeEdit.setTime(qtc.str_to_QTime(t))
@@ -31,11 +33,13 @@ class ScoringSettings(QtWidgets.QWidget):
 
     @pyqtSlot()
     def goal_time_edit_changed(self):
+        """ Callback that executes when the goal time edit value changes """
         t = self.goalTimeEdit.dateTime().time()
         t = qtc.QTime_to_str(t)
         data.store_data('settings/scoring/goal_speech_length', t)
     
     @pyqtSlot()
     def good_expressions_line_edit_changed(self):
+        """ Callback that executes when the good expressions list changes """
         expressions = self.goodExpressionsLineEdit.text()
         data.store_data('settings/scoring/good_expressions', expressions)

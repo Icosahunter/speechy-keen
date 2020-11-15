@@ -5,6 +5,7 @@ from .alarmitem import AlarmItemWidget
 from ...app import data
 
 class AlarmConfigWidget(QtWidgets.QWidget):
+    """ A widget for configuring alarms """
 
     def __init__(self):
         super().__init__()
@@ -19,12 +20,18 @@ class AlarmConfigWidget(QtWidgets.QWidget):
 
     @pyqtSlot()
     def add_alarm_button_clicked(self):
+        """ Callback that executes when the add alarm button is clicked """
         all_ids = set(range(len(self.alarms) + 1))
         used_ids = set(self.alarms.keys())
         id = min(all_ids - used_ids)
         self.add_alarm(id)
 
     def add_alarm(self, id, *args):
+        """ 
+            Adds a new alarm with the given arguments
+            
+            See AlarmItemWidget class to see available arguments.
+        """
         alarm = AlarmItemWidget(id, *args)
         alarm.delete_clicked_signal.connect(self.remove_alarm)
         alarm.value_changed_signal.connect(self.alarm_value_changed)
@@ -33,6 +40,12 @@ class AlarmConfigWidget(QtWidgets.QWidget):
 
     @pyqtSlot(int)
     def remove_alarm(self, alarmId):
+        """ 
+            Removes the alarm with the given id from the list
+
+            Each alarm item has a delete button that this slot is
+            then connected to.
+        """
         print(alarmId)
         alarm = self.alarms[alarmId]
         self.alarmsListLayout.removeWidget(alarm)
@@ -44,9 +57,15 @@ class AlarmConfigWidget(QtWidgets.QWidget):
 
     @pyqtSlot(int)
     def alarm_value_changed(self, alarmId):
+        """ 
+            Callback that executes when the value of an alarm item changes
+
+            Each alarm item in the list connects to this.
+        """
         self.update_saved_alarms()
 
     def update_saved_alarms(self):
+        """ Saves alarm configuration to file """
         a = []
         for id in self.alarms:
             a.append(self.alarms[id].alarm_data)

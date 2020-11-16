@@ -22,12 +22,18 @@ class ReportViewer(QtWidgets.QWidget):
         self.saveButton.clicked.connect(self.save_button_clicked)
         self.openFileLocationButton.clicked.connect(self.open_file_location_button_clicked)
 
+    def set_options(self, save, open, close):
+        self.saveButton.setHidden(not save)
+        self.openFileLocationButton.setHidden(not open)
+        self.closeButton.setHidden(not close)
+
     @pyqtSlot()
     def open_file_location_button_clicked(self):
         """ Callback that executes when the open file location button is clicked """
-        directory = '/'.join(self._report_path.split('/')[0:-1])
-        url = QUrl.fromLocalFile(directory)
-        QtGui.QDesktopServices.openUrl(url)
+        if self._report_path is not None:
+            directory = '/'.join(self._report_path.split('/')[0:-1])
+            url = QUrl.fromLocalFile(directory)
+            QtGui.QDesktopServices.openUrl(url)
 
     @pyqtSlot()
     def close_button_clicked(self):
@@ -58,84 +64,85 @@ class ReportViewer(QtWidgets.QWidget):
     def show_report(self):
         """ Builds the graphical representation of the report and shows the widget """
         # Handle creating and showing data stream plots
-        stream_count = len(self.report['stream_data'])
-        speech_len = qtc.str_to_seconds(self.report['single_data']['speech_length'])
-        time_px = (self._plot_width - 50)/speech_len
+        if self.report is not None:
+            stream_count = len(self.report['stream_data'])
+            speech_len = qtc.str_to_seconds(self.report['single_data']['speech_length'])
+            time_px = (self._plot_width - 50)/speech_len
 
-        for key in self.report['stream_data']:
+            for key in self.report['stream_data']:
 
-            main_data_key = self.report['stream_data'][key]['main_data']
-            scene = QtWidgets.QGraphicsScene(0, 0, self._plot_width, self._plot_height)
+                main_data_key = self.report['stream_data'][key]['main_data']
+                scene = QtWidgets.QGraphicsScene(0, 0, self._plot_width, self._plot_height)
 
-            # add ruler lines to scene
-            for i in range(100):
-                h = self._plot_height/30
-                if i%50 == 0:
-                    h = 16*h
-                elif i%25 == 0:
-                    h = 8*h
-                elif i%5 == 0:
-                    h = 4*h
-                x1 = self._plot_width*i/100
-                y1 = self._plot_height - self._legend_height
-                x2 = self._plot_width*i/100
-                y2 = self._plot_height - self._legend_height - h
-                scene.addLine(x1, y1, x2, y2)
+                # add ruler lines to scene
+                for i in range(100):
+                    h = self._plot_height/30
+                    if i%50 == 0:
+                        h = 16*h
+                    elif i%25 == 0:
+                        h = 8*h
+                    elif i%5 == 0:
+                        h = 4*h
+                    x1 = self._plot_width*i/100
+                    y1 = self._plot_height - self._legend_height
+                    x2 = self._plot_width*i/100
+                    y2 = self._plot_height - self._legend_height - h
+                    scene.addLine(x1, y1, x2, y2)
 
-            x = 0
-            y = self._plot_height - self._legend_height
-            w = self._plot_width
-            h = self._legend_height
-            brush = QtGui.QBrush(QtGui.QColor('#AAAAAA'), Qt.SolidPattern)
-            scene.addRect(x, y, w, h, QtGui.QPen(), brush)
+                x = 0
+                y = self._plot_height - self._legend_height
+                w = self._plot_width
+                h = self._legend_height
+                brush = QtGui.QBrush(QtGui.QColor('#AAAAAA'), Qt.SolidPattern)
+                scene.addRect(x, y, w, h, QtGui.QPen(), brush)
 
-            # add data points to scene
-            for d in self.report['stream_data'][key]['stream']:
+                # add data points to scene
+                for d in self.report['stream_data'][key]['stream']:
 
-                color = '#000000'
-                try:
-                    color = self.report['stream_data'][key]['colors'][str(d[main_data_key])]
-                except KeyError:
+                    color = '#000000'
                     try:
-                        color = self.report['stream_data'][key]['colors']['default']
+                        color = self.report['stream_data'][key]['colors'][str(d[main_data_key])]
                     except KeyError:
-                        pass
+                        try:
+                            color = self.report['stream_data'][key]['colors']['default']
+                        except KeyError:
+                            pass
 
-                brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
-                time  = d['time_stamp']
-                ellip_size = 0.5*(self._plot_height - self._legend_height)
-                ellip_margin = 0.2*(self._plot_height - self._legend_height)
-                scene.addEllipse(time*time_px, ellip_margin, ellip_size, ellip_size, QtGui.QPen(), brush)
+                    brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
+                    time  = d['time_stamp']
+                    ellip_size = 0.5*(self._plot_height - self._legend_height)
+                    ellip_margin = 0.2*(self._plot_height - self._legend_height)
+                    scene.addEllipse(time*time_px, ellip_margin, ellip_size, ellip_size, QtGui.QPen(), brush)
 
-            ellip_size = 0.5*self._legend_height
-            ellip_y = self._plot_height - 1.3*ellip_size
-            txt_inc = self._plot_width / len(self.report['stream_data'][key]['colors'])
-            txt_x = ellip_size + 5
-            txt_y = self._plot_height - self._legend_height
-            # add legend entries to the report form
-            for c in self.report['stream_data'][key]['colors']:
+                ellip_size = 0.5*self._legend_height
+                ellip_y = self._plot_height - 1.3*ellip_size
+                txt_inc = self._plot_width / len(self.report['stream_data'][key]['colors'])
+                txt_x = ellip_size + 5
+                txt_y = self._plot_height - self._legend_height
+                # add legend entries to the report form
+                for c in self.report['stream_data'][key]['colors']:
 
-                color = self.report['stream_data'][key]['colors'][c]
-                brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
-                scene.addEllipse(txt_x - ellip_size - 1, ellip_y, ellip_size, ellip_size, QtGui.QPen(), brush)
+                    color = self.report['stream_data'][key]['colors'][c]
+                    brush = QtGui.QBrush(QtGui.QColor(color), Qt.SolidPattern)
+                    scene.addEllipse(txt_x - ellip_size - 1, ellip_y, ellip_size, ellip_size, QtGui.QPen(), brush)
 
-                txt = scene.addText(c)
-                txt.setPos(txt_x, txt_y)
-                txt_x += txt_inc
+                    txt = scene.addText(c)
+                    txt.setPos(txt_x, txt_y)
+                    txt_x += txt_inc
 
 
-            # add everything to the report form
-            k = QtWidgets.QLabel(self.pretty_name(key))
-            v = QtWidgets.QGraphicsView(scene)
-            v.setMaximumHeight(self._plot_height + 10)
-            v.setMaximumWidth(self._plot_width + 10)
-            self.reportForm.addRow(k, v)
+                # add everything to the report form
+                k = QtWidgets.QLabel(self.pretty_name(key))
+                v = QtWidgets.QGraphicsView(scene)
+                v.setMaximumHeight(self._plot_height + 10)
+                v.setMaximumWidth(self._plot_width + 10)
+                self.reportForm.addRow(k, v)
 
-        # handle creating and showing single datas
-        for key in self.report['single_data']:
-            k = QtWidgets.QLabel(self.pretty_name(key))
-            v = QtWidgets.QLabel(str(self.report['single_data'][key]))
-            self.reportForm.addRow(k, v)
+            # handle creating and showing single datas
+            for key in self.report['single_data']:
+                k = QtWidgets.QLabel(self.pretty_name(key))
+                v = QtWidgets.QLabel(str(self.report['single_data'][key]))
+                self.reportForm.addRow(k, v)
 
         self.show()
 

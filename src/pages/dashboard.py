@@ -20,7 +20,9 @@ class DashboardPage(QtWidgets.QWidget):
         self.load_recent_speeches()
         self.recentSpeechesListWidget.itemClicked.connect(self.speech_report_clicked)
         self.allSpeechesButton.clicked.connect(self.all_speeches_button_clicked)
-        self.report_viewer = None
+        self.report_viewer = ReportViewer()
+        self.reportContainer.addWidget(self.report_viewer)
+        self.report_viewer.set_options(False, True, False)
 
     @pyqtSlot()
     def all_speeches_button_clicked(self):
@@ -38,7 +40,6 @@ class DashboardPage(QtWidgets.QWidget):
     @pyqtSlot(QtWidgets.QListWidgetItem)
     def speech_report_clicked(self, item):
         """ Callback for when a speech report in the list box is clicked. """
-        self.report_viewer = ReportViewer()
         report = data.get_data('documents/speech_reports/' + item.text())
         self.report_viewer.open_dict(report)
         self.report_viewer.show_report()

@@ -16,5 +16,3 @@ class SettingsInfo(QtWidgets.QWidget):
         self.settingsLocLabel.setText(data.settings_location)
         self.docLocLabel.setText(data.user_data_location)
         self.appDataLocLabel.setText(data.app_data_location)
-        
-

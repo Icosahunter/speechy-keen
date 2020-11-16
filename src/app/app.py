@@ -3,8 +3,8 @@ from PyQt5.QtCore import QSettings, QCoreApplication, pyqtSlot, Qt
 from ..widgets.settings_widgets.alarmconfig import AlarmConfigWidget
 from ..widgets.settings_widgets.scoring_settings import ScoringSettings
 from ..widgets.settings_widgets.settings_info import SettingsInfo
-from ..pages.loading import LoadingPage
 from ..widgets.reportviewer import ReportViewer
+from ..pages.loading import LoadingPage
 import os
 from time import sleep
 

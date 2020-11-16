@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>296</height>
+    <width>465</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QFormLayout" name="creditsFormLayout">
+        <property name="labelAlignment">
+         <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
@@ -46,7 +49,7 @@
         <item row="1" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QLabel" name="label_13">
+           <widget class="QLabel" name="label_8">
             <property name="text">
              <string>Prof. Matt Batchelder</string>
             </property>
@@ -55,11 +58,25 @@
           <item>
            <widget class="QLabel" name="label_12">
             <property name="text">
-             <string>and Peter Moyer</string>
+             <string>Peter Moyer</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Bell Audio Effect : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>by Aiwha from freesound.org</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

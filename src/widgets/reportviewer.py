@@ -31,7 +31,7 @@ class ReportViewer(QtWidgets.QWidget):
 
     @pyqtSlot()
     def close_button_clicked(self):
-        """" Callback that executes when the close button is clicked """"
+        """ Callback that executes when the close button is clicked """
         self.close()
 
     @pyqtSlot()

@@ -19,7 +19,21 @@ class DashboardPage(QtWidgets.QWidget):
         uic.loadUi(os.path.join(d, 'dashboard.ui'), self)  # load the ui file
         self.load_recent_speeches()
         self.recentSpeechesListWidget.itemClicked.connect(self.speech_report_clicked)
+        self.allSpeechesButton.clicked.connect(self.all_speeches_button_clicked)
         self.report_viewer = None
+
+    @pyqtSlot()
+    def all_speeches_button_clicked(self):
+
+        path = data.user_data_location + 'speech_reports'
+        filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open Speech Report', path, '*.json')[0]
+
+        try:
+            report = data.get_data('documents/speech_reports/' + filename)
+            self.report_viewer.open_dict(report)
+            self.report_viewer.show_report()
+        except FileNotFoundError:
+            pass
 
     @pyqtSlot(QtWidgets.QListWidgetItem)
     def speech_report_clicked(self, item):

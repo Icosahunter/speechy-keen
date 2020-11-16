@@ -82,20 +82,20 @@
   <body>
 	<div class="flex-container">
 
-	<button class="big-btn">
+	<button class="big-btn" onclick="clickBell()">
 		<div class="btn-contents">
 			<img class="bell-img" src="https://drive.google.com/u/0/uc?id=1lob3_1574UhxJRPlrGg81nQtv8Bq3jds&export=download">
 			<p class="tally">4</p>
 		</div>
 	</button>
 
-	<button class="inc-btn" onclick="incrementClick()">
+	<button class="inc-btn" onclick="clickIncrement()">
 		<div class="btn-contents">
 			<img class="arrow-img inc-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
 		</div>
 	</button>
 
-	<button class="dec-btn" onclick="decrementClick()">
+	<button class="dec-btn" onclick="clickDecrement()">
 		<div class="btn-contents">
 			<img class="arrow-img dec-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
 		</div>
@@ -105,19 +105,23 @@
   </body>
   <script>
 
-		function incrementClick() {
-			sendClicks(1);
-		}
-		
-		function decrementClick() {
-			sendClicks(-1);
+		function clickBell() {
+			sendData(1, false)
 		}
 
-		function sendClicks(clicks) {
+		function clickIncrement() {
+			sendData(1);
+		}
+		
+		function clickDecrement() {
+			sendData(-1);
+		}
+
+		function sendData(disfluencies, mute_ding = true) {
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("POST", "/disfluencies", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("clicks=" + clicks);
+			xhttp.send("disfluencies=" + disfluencies + "&mute_ding=" + mute_ding);
 		}
   </script>
 </html>

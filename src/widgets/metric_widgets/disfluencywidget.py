@@ -1,5 +1,8 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QUrl
+from pygame import mixer
+import os
+import json
 from ...app import data
 from ...server import server
 
@@ -8,12 +11,18 @@ class DisfluencyWidget(QtWidgets.QLabel):
 
     def __init__(self):
         """ The constructor """
+
         super().__init__()
+
         self.setText('🕭0')
+
         server.disfluency_received_signal.connect(self.update_disfluency_count)
         data.current_speech_data.speech_started_signal.connect(self.on_speech_start)
         data.current_speech_data.speech_finished_signal.connect(self.on_speech_end)
-        
+
+        d = os.getcwd()
+        mixer.init()
+        self.ding_effect = mixer.Sound(d + '/src/resources/sounds/196106__aiwha__ding.wav')
 
     @pyqtSlot()
     def on_speech_start(self):
@@ -33,9 +42,16 @@ class DisfluencyWidget(QtWidgets.QLabel):
         data.current_speech_data.submit_score('disfluency_score', disf_score)
 
 
-    @pyqtSlot(int)
-    def update_disfluency_count(self, disfluencies):
+    @pyqtSlot(str)
+    def update_disfluency_count(self, disfluency_str):
         """ Callback that executes when the server receives a disfluency """
+
+        disfluency_dict = json.loads(disfluency_str)
+        disfluencies = disfluency_dict['disfluencies']
+        mute_ding = disfluency_dict['mute_ding']
+
+        if not mute_ding:
+            self.play_ding()
 
         if not data.current_speech_data.is_paused():
             if disfluencies > 0:
@@ -50,3 +66,6 @@ class DisfluencyWidget(QtWidgets.QLabel):
             data.current_speech_data.submit_single('disfluency_count', tally)
 
             self.setText('🕭' + str(tally))
+
+    def play_ding(self):
+        self.ding_effect.play()

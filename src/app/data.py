@@ -9,6 +9,7 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings, QStandardPaths, QVariant
 from .speech_data import SpeechData
+from .speech_notes_data import SpeechNotesData
 from enum import Enum
 from os import path, makedirs, listdir
 import json
@@ -16,6 +17,7 @@ from datetime import datetime
 
 settings = QSettings()
 current_speech_data = SpeechData()
+current_speech_notes = SpeechNotesData()
 
 app_data_location = QStandardPaths.standardLocations(QStandardPaths.AppDataLocation)[0] + '/SpeechyKeen/'
 user_data_location = QStandardPaths.standardLocations(QStandardPaths.DocumentsLocation)[0] + '/SpeechyKeen/'

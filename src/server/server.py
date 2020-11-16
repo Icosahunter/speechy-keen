@@ -6,7 +6,7 @@ import netifaces
 
 class ServerThread(QThread):
     """ The thread the server runs in """
-    disfluency_received_signal = pyqtSignal(int)
+    disfluency_received_signal = pyqtSignal(str)
 
     def __init__(self, app, port):
         """ The constructor """
@@ -38,7 +38,10 @@ def home():
 @flask_app.route('/disfluencies', methods=['GET', 'POST'])
 def disfluencies():
     if request.method == 'POST':
-        disfluency_received_signal.emit(int(request.form['clicks']))
+        disfluencies = request.form['disfluencies']
+        mute_ding = request.form['mute_ding']
+        json_data = f'{{"disfluencies":{disfluencies}, "mute_ding":{mute_ding}}}'
+        disfluency_received_signal.emit(json_data)
     return "1"
 
 def run_server():

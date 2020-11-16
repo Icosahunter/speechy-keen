@@ -1,5 +1,6 @@
 *{
     color: white;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -31,7 +32,12 @@ QTabWidget::pane {
 }
 
 QTabBar::tab:selected {
+    background: rgba(255, 255, 255, 50%);
     color: #333333;
+}
+
+QTabBar::tab {
+    background: rgba(0, 0, 0, 10%);
 }
 
 QAbstractButton {
@@ -72,10 +78,12 @@ QComboBox:hover {
 }
 
 QComboBox QAbstractItemView {
-    background: white;
-    color: #333333;
-    selection-background-color: gray;
+    selection-background-color: #333333;
     selection-color: white;
+}
+
+QMenuBar {
+    background: transparent;
 }
 
 QMenuBar QMenu {
@@ -101,9 +109,13 @@ TimerWidget {
 }
 
 DisfluencyWidget {
-    font-size: 30px;
+    font-size: 40px;
 }
 
 FacialAnalysisWidget {
-    font-size: 30px;
+    font-size: 40px;
+}
+
+#speechNotesLabel {
+    font-size: 40px;
 }

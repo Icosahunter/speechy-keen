@@ -38,6 +38,20 @@ class SpeechNotesData(QObject):
     def prompts(self):
         return self.unparse_paragraphs(self._notes['prompts'])
     
+    def prompt_at(self, index):
+        ind = list(self._notes['prompts'])[index]
+        return self._notes['prompts'][ind]
+
+    def prompt_count(self):
+        return len(self._notes['prompts'])
+
+    def transcript_at(self, index):
+        ind = list(self._notes['transcript'])[index]
+        return self._notes['transcript'][ind]
+
+    def transcript_count(self):
+        return len(self._notes['transcript'])
+
     def unparse_paragraphs(self, par_dict):
         return '\n\n'.join([f'{k}) {v}' for k, v in par_dict.items()])
 
@@ -49,7 +63,7 @@ class SpeechNotesData(QObject):
             the text when they are of the form 'n)'
         """
         pars = mystring.split('\n\n')  #split into paragraphs
-        pars = {x.split(')')[0] : ')'.join(x.split(')')[1:]) for x in pars}
+        pars = {x.split(')')[0] : ')'.join(x.split(')')[1:]).strip() for x in pars}
         return pars
 
     def save_to_file(self):

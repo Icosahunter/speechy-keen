@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtCore import Qt, pyqtSlot, QUrl
-from ..app.data import store_data
+from ..app import data
 from ..utils import qtimeconversion as qtc
 from os import path
 import json
@@ -38,7 +38,7 @@ class ReportViewer(QtWidgets.QWidget):
     def save_button_clicked(self):
         """ Callback that executes when the save button is clicked """
         report_file_name = self.report['single_data']['speech_name'] + ' ' + self.report['single_data']['date']
-        self._report_path = store_data('documents/speech_reports/' + report_file_name, self.report)
+        self._report_path = data.store_data('documents/speech_reports/' + report_file_name, self.report)
         self.saveButton.setHidden(True)
         self.openFileLocationButton.setHidden(False)
 

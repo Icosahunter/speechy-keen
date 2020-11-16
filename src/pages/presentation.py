@@ -4,6 +4,7 @@ import os
 import math
 from ..widgets.videowidget import VideoWidget
 from ..widgets.metric_widgets.timerwidget import TimerWidget
+from ..widgets.prompterwidget import PrompterWidget
 #from ..widgets.metric_widgets.facialanalyzerwidget import FacialAnalyzerWidget
 from ..widgets.metric_widgets.disfluencywidget import DisfluencyWidget
 from ..widgets.reportviewer import ReportViewer
@@ -31,10 +32,14 @@ class PresentationPage(QtWidgets.QWidget):
         self.videoMockup.deleteLater()
         self.moodLabelMockup.deleteLater()
         self.wordSpeedLabelMockup.deleteLater()
+        self.speechNotesMockup.deleteLater()
 
         # add custom widgets
         self.timerWidget = TimerWidget()
         self.sideBarContainer.insertWidget(0, self.timerWidget)
+
+        self.prompterWidget = PrompterWidget()
+        self.sideBarContainer.insertWidget(5, self.prompterWidget)
 
         #self.facialAnalyzerWidget = FacialAnalyzerWidget()
         #self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)

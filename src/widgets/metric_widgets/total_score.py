@@ -7,6 +7,7 @@ class TotalScore(QObject):
     def __init__(self):
         """ The constructor """
         super().__init__()
+        data.current_speech_data.speech_finished_signal.connect(self.on_speech_end)
     
     @pyqtSlot()
     def on_speech_end():

@@ -84,26 +84,40 @@
 
 	<button class="big-btn" onclick="clickBell()">
 		<div class="btn-contents">
-			<img class="bell-img" src="https://drive.google.com/u/0/uc?id=1lob3_1574UhxJRPlrGg81nQtv8Bq3jds&export=download">
-			<p class="tally">4</p>
+			<img class="bell-img" src="/images/bell.png">
+			<p id="tally_text" class="tally">0</p>
 		</div>
 	</button>
 
 	<button class="inc-btn" onclick="clickIncrement()">
 		<div class="btn-contents">
-			<img class="arrow-img inc-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
+			<img class="arrow-img inc-img" src="/images/arrow.png">
 		</div>
 	</button>
 
 	<button class="dec-btn" onclick="clickDecrement()">
 		<div class="btn-contents">
-			<img class="arrow-img dec-img" src="https://drive.google.com/u/0/uc?id=1DyD7l8sJFwt8V3iWoT6LPraWu4Yl019F&export=download">
+			<img class="arrow-img dec-img" src="/images/arrow.png">
 		</div>
 	</button>
 
     </div>
   </body>
   <script>
+
+		function update_tally(){
+			var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function(){
+					if (this.readyState == 4 && this.status == 200){
+						document.getElementById("tally_text").innerHTML = 
+						this.responseText;
+					}
+				}
+				xhttp.open("GET", "/disfluencies", true);
+				xhttp.send();
+		}
+
+		var upd_id = setInterval(update_tally, 3000)
 
 		function clickBell() {
 			sendData(1, false)
@@ -122,6 +136,7 @@
 			xhttp.open("POST", "/disfluencies", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xhttp.send("disfluencies=" + disfluencies + "&mute_ding=" + mute_ding);
+			setTimeout(update_tally, 100)
 		}
   </script>
 </html>

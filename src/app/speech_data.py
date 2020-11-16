@@ -58,11 +58,10 @@ class SpeechData(QObject):
 
 
     def start_speech(self):
-        """ Sets state variables, emits speech started signal, and logs date. """
+        """ Sets state variables, emits speech started signal """
         self._paused = False
         self._finished = False
         self.speech_started_signal.emit()
-        self.submit_single('date', datetime.now().strftime('%m-%d-%YT%H%M%S'))
 
     def end_speech(self):
         """ Sets state variables and emits speech finished signal. """

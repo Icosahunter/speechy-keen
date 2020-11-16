@@ -9,6 +9,7 @@ from ..widgets.prompterwidget import PrompterWidget
 from ..widgets.metric_widgets.disfluencywidget import DisfluencyWidget
 from ..widgets.reportviewer import ReportViewer
 from ..widgets.metric_widgets.total_score import TotalScore
+from ..widgets.metric_widgets.speech_meta import SpeechMeta
 from ..app import data
 from ..server.server import full_address
 
@@ -27,14 +28,14 @@ class PresentationPage(QtWidgets.QWidget):
         d = os.path.dirname(os.path.realpath(__file__))
         uic.loadUi(os.path.join(d, 'presentation.ui'), self)    # load the ui file
         
-        # remove mockup widgets
+        # ---remove mockup widgets---
         self.timeMockup.deleteLater()
         self.videoMockup.deleteLater()
         self.moodLabelMockup.deleteLater()
         self.wordSpeedLabelMockup.deleteLater()
         self.speechNotesMockup.deleteLater()
 
-        # add custom widgets
+        # ---add custom widgets---
         self.timerWidget = TimerWidget()
         self.sideBarContainer.insertWidget(0, self.timerWidget)
 
@@ -52,10 +53,12 @@ class PresentationPage(QtWidgets.QWidget):
         self.videoWidget.mirrored = True
 
         self.totalScore = TotalScore()
+        
+        self.speechMeta = SpeechMeta()
 
         self.urlLabel.setText('url:  ' + full_address)
 
-        # connect callbacks
+        # ---connect callbacks---
         #self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)
         self.startButton.clicked.connect(self.start_button_clicked)
         self.stopButton.clicked.connect(self.stop_button_clicked)

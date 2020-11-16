@@ -51,8 +51,8 @@ class SpeechyKeenWindow(QtWidgets.QMainWindow):     # inherits from QMainWindow
         from ..pages.dashboard import DashboardPage
         from ..pages.speechnotes import SpeechNotesPage
         self.tabWidget.addTab(DashboardPage(), "dashboard")
-        self.tabWidget.addTab(PresentationPage(), "presentation")
         self.tabWidget.addTab(SpeechNotesPage(), "speech notes")
+        self.tabWidget.addTab(PresentationPage(), "presentation")
         self.tabWidget.removeTab(0)
 
     @pyqtSlot()

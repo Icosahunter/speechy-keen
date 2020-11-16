@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from PyQt5.QtCore import QThread, pyqtSignal
+from ..app import data
 from os import path
 import netifaces
 
@@ -42,7 +43,22 @@ def disfluencies():
         mute_ding = request.form['mute_ding']
         json_data = f'{{"disfluencies":{disfluencies}, "mute_ding":{mute_ding}}}'
         disfluency_received_signal.emit(json_data)
-    return "1"
+        return "1"
+    if request.method == 'GET':
+        if not data.current_speech_data.is_paused():
+            return str(data.current_speech_data.get_single('disfluency_count'))
+        else:
+            return "0"
+
+@flask_app.route('/images/bell.png', methods=['GET'])
+def bell_image():
+    d = path.dirname(path.realpath(__file__))
+    return send_from_directory(path.join(d, '../resources/images/'), 'bell_icon.png')
+
+@flask_app.route('/images/arrow.png', methods=['GET'])
+def arrow_image():
+    d = path.dirname(path.realpath(__file__))
+    return send_from_directory(path.join(d, '../resources/images/'), 'corner_angle.png')
 
 def run_server():
     server_thread.start()

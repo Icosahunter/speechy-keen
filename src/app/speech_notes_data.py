@@ -23,6 +23,12 @@ class SpeechNotesData(QObject):
     def set_speech_name(self, name):
         self._notes['speech_name'] = name
 
+    def author(self):
+        return self._notes['author']
+
+    def speech_name(self):
+        return self._notes['speech_name']
+
     def from_plain_text(self, prompt_text, transcript_text):
         """ Sets the prompts and transcript from plain text """
 

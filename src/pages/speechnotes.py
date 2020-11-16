@@ -25,6 +25,7 @@ class SpeechNotesPage(QtWidgets.QWidget):
         self.speechNotesTextEdit.textChanged.connect(self.update_speech_notes)
         self.speechNameEdit.setText('MySpeech1')
         self.speechNotesTextEdit.setPlainText('1) ')
+        self.update_global_notes()
 
     @pyqtSlot()
     def open_button_clicked(self):
@@ -97,3 +98,5 @@ class SpeechNotesPage(QtWidgets.QWidget):
         transcript = self.speechNotesTextEdit.toPlainText()
         prompts = self.promptTextEdit.toPlainText()
         data.current_speech_notes.from_plain_text(prompts, transcript)
+        data.current_speech_notes.set_author(self.authorEdit.text())
+        data.current_speech_notes.set_speech_name(self.speechNameEdit.text())

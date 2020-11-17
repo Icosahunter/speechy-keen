@@ -19,16 +19,17 @@ class ScoringSettings(QtWidgets.QWidget):
     
     def load_settings(self):
         """ Loads the settings from file """
-        try:
-            t = data.get_data('settings/scoring/goal_speech_length')
+
+        t = data.get_data('settings/scoring/goal_speech_length')
+        if t is not None:
             self.goalTimeEdit.setTime(qtc.str_to_QTime(t))
-        except:
+        else:
             self.goalTimeEdit.setTime(qtc.str_to_QTime('00:04:00'))
 
-        try:
-            expressions = data.get_data('settings/scoring/good_expressions')
+        expressions = data.get_data('settings/scoring/good_expressions')
+        if expressions is not None:
             self.goodExpressionsLineEdit.setText(expressions)
-        except:
+        else:
             self.goodExpressionsLineEdit.setText('happy, surprise, neutral')
 
     @pyqtSlot()

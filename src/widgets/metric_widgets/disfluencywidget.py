@@ -38,7 +38,7 @@ class DisfluencyWidget(QtWidgets.QLabel):
     def on_speech_end(self):
         """ Callback that executres when the speech ends """
         tally = data.current_speech_data.get_single('disfluency_count')
-        disf_score = 100*(1-pow(tally,2)/(pow(tally,2)+100))
+        disf_score = int(100*(1-pow(tally,2)/(pow(tally,2)+100)))
         data.current_speech_data.submit_score('disfluency_score', disf_score)
 
 

@@ -32,12 +32,24 @@ class FacialAnalyzerWidget(QtWidgets.QLabel):
     @pyqtSlot()
     def on_speech_end(self):
         """ Callback that executes when the speech ends """
-        good_expressions = data.get_data('settings/scoring/good_expressions').split(', ')
+        good_expressions = data.get_data('settings/scoring/good_expressions')
+        good_expressions = good_expressions.split(', ')
     
         expressions = data.current_speech_data.get_stream('expression_stream')
         expressions = [x['expression'] for x in expressions]
 
-        expr_score = sum(x in expressions for x in good_expressions) / len(expressions)
+        expr_score = 0
+
+        for x in expressions:
+            if x in good_expressions:
+                expr_score += 1
+
+        if len(expressions) > 0:
+            expr_score = expr_score / len(expressions)
+            expr_score = int(100 * expr_score)
+        else:
+            expr_score = 0
+            
         data.current_speech_data.submit_single('expression_score', expr_score)
 
     @pyqtSlot(numpy.ndarray)

@@ -112,7 +112,7 @@ DisfluencyWidget {
     font-size: 40px;
 }
 
-FacialAnalysisWidget {
+FacialAnalyzerWidget {
     font-size: 40px;
 }
 

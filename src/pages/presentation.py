@@ -5,7 +5,7 @@ import math
 from ..widgets.videowidget import VideoWidget
 from ..widgets.metric_widgets.timerwidget import TimerWidget
 from ..widgets.prompterwidget import PrompterWidget
-#from ..widgets.metric_widgets.facialanalyzerwidget import FacialAnalyzerWidget
+from ..widgets.metric_widgets.facialanalyzerwidget import FacialAnalyzerWidget
 from ..widgets.metric_widgets.disfluencywidget import DisfluencyWidget
 from ..widgets.reportviewer import ReportViewer
 from ..widgets.metric_widgets.total_score import TotalScore
@@ -34,6 +34,7 @@ class PresentationPage(QtWidgets.QWidget):
         self.moodLabelMockup.deleteLater()
         self.wordSpeedLabelMockup.deleteLater()
         self.speechNotesMockup.deleteLater()
+        self.presenterNameMockup.deleteLater()
 
         # ---add custom widgets---
         self.timerWidget = TimerWidget()
@@ -42,8 +43,11 @@ class PresentationPage(QtWidgets.QWidget):
         self.prompterWidget = PrompterWidget()
         self.sideBarContainer.insertWidget(5, self.prompterWidget)
 
-        #self.facialAnalyzerWidget = FacialAnalyzerWidget()
-        #self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)
+        self.speechMeta = SpeechMeta()
+        self.sideBarContainer.insertWidget(8, self.speechMeta)
+
+        self.facialAnalyzerWidget = FacialAnalyzerWidget()
+        self.statsContainer.insertWidget(0, self.facialAnalyzerWidget)
 
         self.disfluencyWidget = DisfluencyWidget()
         self.statsContainer.insertWidget(0, self.disfluencyWidget)
@@ -53,13 +57,11 @@ class PresentationPage(QtWidgets.QWidget):
         self.videoWidget.mirrored = True
 
         self.totalScore = TotalScore()
-        
-        self.speechMeta = SpeechMeta()
 
         self.urlLabel.setText('url:  ' + full_address)
 
         # ---connect callbacks---
-        #self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)
+        self.videoWidget.frame_signal.connect(self.facialAnalyzerWidget.update_facial_analysis)
         self.startButton.clicked.connect(self.start_button_clicked)
         self.stopButton.clicked.connect(self.stop_button_clicked)
         self.report_viewer = None

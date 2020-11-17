@@ -64,6 +64,7 @@ class ReportViewer(QtWidgets.QWidget):
     def show_report(self):
         """ Builds the graphical representation of the report and shows the widget """
         # Handle creating and showing data stream plots
+
         if self.report is not None:
             stream_count = len(self.report['stream_data'])
             speech_len = qtc.str_to_seconds(self.report['single_data']['speech_length'])
@@ -142,6 +143,12 @@ class ReportViewer(QtWidgets.QWidget):
             for key in self.report['single_data']:
                 k = QtWidgets.QLabel(self.pretty_name(key))
                 v = QtWidgets.QLabel(str(self.report['single_data'][key]))
+                self.reportForm.addRow(k, v)
+
+            # handle creating and showing score datas
+            for key in self.report['score_data']:
+                k = QtWidgets.QLabel(self.pretty_name(key))
+                v = QtWidgets.QLabel(str(self.report['score_data'][key]))
                 self.reportForm.addRow(k, v)
 
         self.show()

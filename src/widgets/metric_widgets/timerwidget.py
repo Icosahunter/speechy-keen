@@ -34,8 +34,9 @@ class TimerWidget(QtWidgets.QLabel):
         
         goal_len = qtc.str_to_seconds(data.get_data('settings/scoring/goal_speech_length'))
         
-        len_score = abs(speech_len.total_seconds() - goal_len)/goal_len
-        
+        len_score = (1 - (abs(speech_len.total_seconds() - goal_len)/goal_len))
+        len_score = int(100 * len_score)
+
         data.current_speech_data.submit_single('speech_length', qtc.timedelta_to_str(speech_len))
         data.current_speech_data.submit_score('speech_length_score', len_score)
         

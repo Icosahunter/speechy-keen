@@ -10,8 +10,8 @@ class TotalScore(QObject):
         data.current_speech_data.speech_finished_signal.connect(self.on_speech_end)
     
     @pyqtSlot()
-    def on_speech_end():
+    def on_speech_end(self):
         """ Callback that executes when the speech ends """
         all_scores = data.current_speech_data.get_all_scores()
-        total_score = sum(all_scores)/len(all_scores)
+        total_score = int(sum(all_scores)/len(all_scores))
         data.current_speech_data.submit_score('total_score', total_score)

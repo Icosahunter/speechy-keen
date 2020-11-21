@@ -43,6 +43,8 @@ class SpeechNotesPage(QtWidgets.QWidget):
 
             self.speechNotesTextEdit.setPlainText(transcript)
             self.promptTextEdit.setPlainText(prompts)
+            self.authorEdit.setText(notes['author'])
+            self.speechNameEdit.setText(notes['speech_name'])
 
         except FileNotFoundError:
             pass
@@ -93,6 +95,8 @@ class SpeechNotesPage(QtWidgets.QWidget):
             self.promptTextEdit.setPlainText(prompts + new_prompt)
 
             self.update_global_notes()
+        
+        self.wordCountLabel.setText(str(len(transcript.split())))
         
     def update_global_notes(self):
         transcript = self.speechNotesTextEdit.toPlainText()

@@ -165,7 +165,7 @@ def write_to_file(file_path, str_to_write, overwrite_warning=True):
         overwrite = msg.addButton('Overwrite', QMessageBox.DestructiveRole)
         save_new = msg.addButton('Save as new', QMessageBox.AcceptRole)
         cancel = msg.addButton('Cancel', QMessageBox.RejectRole)
-        msg.setDefaultButton(QMessageBox.AcceptRole)
+        msg.setDefaultButton(save_new)
         msg.exec()
 
         if msg.clickedButton() == save_new:
